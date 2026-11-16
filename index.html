@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Personal Finance in Claude: it can read your bank, card, loan and investment accounts through Plaid, and can't move a cent. An interactive 19-slide deck.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Read-Only Water">
+<meta property="og:title" content="Read-Only Water">
+<meta property="og:description" content="Personal Finance in Claude: it can read your bank, card, loan and investment accounts through Plaid, and can't move a cent. An interactive 19-slide deck.">
+<meta property="og:url" content="https://ironman1421.github.io/read-only-water-deck/">
+<meta property="og:image" content="https://ironman1421.github.io/read-only-water-deck/img/preview.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Title slide: Your money, read-only, over live water">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Read-Only Water">
+<meta name="twitter:description" content="Personal Finance in Claude: it can read your bank, card, loan and investment accounts through Plaid, and can't move a cent. An interactive 19-slide deck.">
+<meta name="twitter:image" content="https://ironman1421.github.io/read-only-water-deck/img/preview.jpg">
+<link rel="apple-touch-icon" href="img/preview-square.jpg">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Read-Only Water</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Young+Serif&family=Onest:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap');
+:root{
+  --paper:#131417; --paper2:#1e2027; --ink:#efede9; --ink2:#bdc0c8; --ink3:#8d919b;
+  --cobalt:#b4a3f7; --cobalt2:#8a78c2; --sand:#dcc9a3; --rule:rgba(236,234,230,.2);
+  --serif:'Young Serif','Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --sans:'Onest','Avenir Next','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --mono:'Geist Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --fs:clamp(15px, 1.02vw + .42vh, 26px);
+  --padT:max(5.5vh, env(safe-area-inset-top)); --padB:max(6vh, env(safe-area-inset-bottom));
+  --padL:max(5.6vw, env(safe-area-inset-left)); --padR:max(8.6vw, calc(env(safe-area-inset-right) + 96px));
+}
+html,body{margin:0;height:100%;overflow:hidden;background:#131417;}
+body{color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+  background-color:#131417;
+  background-image:radial-gradient(120% 90% at 78% 60%, rgba(138,120,194,.10), transparent 60%),url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .9  0 0 0 0 1  0 0 0 0 .9  0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  overscroll-behavior:none;touch-action:pan-y;}
+#ink{position:fixed;left:0;top:0;width:100vw;height:100vh;height:100dvh;z-index:1;pointer-events:none;will-change:transform;}
+#deck{position:fixed;inset:0;z-index:2;}
+.slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,45fr) minmax(0,50fr);column-gap:4.2vw;
+  padding:var(--padT) var(--padR) var(--padB) var(--padL);box-sizing:border-box;visibility:hidden;}
+.slide.on,.slide.leave{visibility:visible;}
+.slide.leave{pointer-events:none;}
+.slide.wide{grid-template-columns:minmax(0,41fr) minmax(0,54fr);}
+.copy{font-size:calc(var(--fs)*var(--k,1));min-height:0;max-height:100%;overflow-y:auto;overflow-x:hidden;align-self:center;scrollbar-width:none;padding-right:.4em;position:relative;z-index:3;}
+.copy::-webkit-scrollbar{display:none;}
+.copy.more{-webkit-mask-image:linear-gradient(#000 calc(100% - 2.6em),transparent);mask-image:linear-gradient(#000 calc(100% - 2.6em),transparent);}
+.copy.more.end{-webkit-mask-image:none;mask-image:none;}
+.tank{position:relative;min-height:0;align-self:stretch;margin:5.5vh 0 1vh;touch-action:none;z-index:2;}
+.tank.grab{cursor:grab;} .tank.grab:active{cursor:grabbing;}
+
+/* labels that live in the tank */
+.lbl{position:absolute;transform:translate(-50%,-50%);font:500 clamp(11px,.98vw,16px)/1.15 var(--sans);color:var(--ink);white-space:nowrap;pointer-events:none;text-align:center;
+  letter-spacing:.01em;text-shadow:0 0 1px #131417,0 0 5px #131417,0 0 12px rgba(19,20,23,.95),0 0 20px rgba(19,20,23,.8);font-variant-numeric:tabular-nums;transition:opacity .5s;}
+.lbl.big{font:clamp(14px,1.42vw,24px)/1.05 var(--serif);}
+.lbl.num{font:clamp(13px,1.2vw,20px)/1 var(--serif);color:var(--ink3);transition:color .4s;}
+.lbl.num.hit{color:var(--cobalt);}
+.lbl.ghost{color:var(--ink2);font-style:italic;text-decoration:line-through;text-decoration-color:var(--sand);text-decoration-thickness:1.5px;}
+.lbl.warn{color:#ead9b6;font-style:italic;}
+.lbl.ride{transform:translate(-50%,-100%);transition:none;}
+.lbl.ride b{display:block;font:clamp(15px,1.5vw,26px)/1.05 var(--serif);font-weight:400;margin-top:.12em;}
+.lbl.wid{color:var(--ink2);border-bottom:1px solid var(--cobalt);padding-bottom:.25em;}
+.lbl.gone{opacity:0;}
+.lbl.off{opacity:.32;}
+.note{position:absolute;right:0;top:-2.5em;font:italic 400 clamp(10.5px,.84vw,13.5px)/1.2 var(--sans);color:var(--ink3);text-align:right;max-width:100%;}
+.note::before{content:'';display:inline-block;width:1.6em;height:1px;background:var(--ink3);vertical-align:middle;margin-right:.5em;}
+.netmark{position:absolute;left:6%;width:40%;border-top:1.5px dashed var(--sand);pointer-events:none;}
+.netmark span{position:absolute;left:50%;transform:translate(-50%,-115%);font:clamp(12px,1.05vw,17px)/1.1 var(--serif);color:#ead9b6;white-space:nowrap;text-shadow:0 0 5px #131417,0 0 12px #131417;}
+
+/* type */
+.folio{font:500 .74em/1.2 var(--sans);color:var(--ink2);margin:0 0 1.7em;display:flex;align-items:baseline;gap:.7em;letter-spacing:.01em;}
+.folio b{white-space:nowrap;font:1.32em/1 var(--serif);color:var(--cobalt);font-weight:400;}
+.folio i{font-style:normal;flex:0 0 2.6em;height:1px;background:var(--ink3);align-self:center;}
+h1,h2{font-family:var(--serif);font-weight:400;margin:0 0 .42em;letter-spacing:-.014em;text-wrap:balance;}
+h1{font-size:5.4em;line-height:.92;margin-bottom:.34em;}
+h2{font-size:2.72em;line-height:1.02;}
+h1 em,h2 em{font-style:normal;color:var(--cobalt);}
+p,li{font-size:1em;line-height:1.45;margin:0 0 .68em;text-wrap:pretty;}
+.lede{font-size:1.22em;line-height:1.38;max-width:31em;}
+.copy ul,.copy ol{list-style:none;margin:0 0 .85em;padding:0;}
+.copy li{position:relative;padding-left:1.3em;margin-bottom:.46em;}
+.copy ul li::before{content:'';position:absolute;left:.12em;top:.5em;width:.42em;height:.42em;background:var(--cobalt);border-radius:0 50% 50% 50%;transform:rotate(45deg);}
+.copy ol{counter-reset:k;}
+.copy ol li{counter-increment:k;padding-left:1.85em;transition:color .5s;}
+.copy ol li::before{content:counter(k);position:absolute;left:0;top:-.04em;font:1.08em/1.45 var(--serif);color:var(--cobalt);}
+.copy ol.sync li{color:var(--ink2);} .copy ol.sync li.hit{color:var(--ink);}
+.copy ol.sync li.hit::before{text-shadow:0 0 .7em rgba(180,163,247,.9);}
+.ui{font-weight:600;color:var(--ink);background:linear-gradient(transparent 64%, rgba(180,163,247,.3) 64%);}
+.small{font-size:.83em;color:var(--ink2);}
+.warnp{color:#ead9b6;}
+.src{font:italic 400 .72em/1.35 var(--sans);color:var(--ink3);margin-top:1.3em;}
+a{color:inherit;text-decoration:underline;text-decoration-color:var(--cobalt);text-underline-offset:.2em;text-decoration-thickness:1px;}
+a:hover{color:var(--cobalt);}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 2em;}
+.cols h3{font:1.12em/1.15 var(--serif);font-weight:400;margin:0 0 .55em;}
+.cols .no li::before{background:none;border:1.5px solid var(--sand);border-radius:50%;width:.34em;height:.34em;transform:none;top:.5em;}
+.quote{font:1.42em/1.24 var(--serif);margin:.1em 0 .75em;padding-left:.8em;border-left:2px solid var(--sand);max-width:21em;hanging-punctuation:first;}
+.quote small{display:block;font:italic 400 .52em/1.4 var(--sans);color:var(--ink2);margin-top:.55em;}
+.srcs{font-size:.92em;} .srcs li{margin-bottom:.6em;}
+.srcs small{display:block;color:var(--ink3);font-size:.82em;}
+
+/* hands-on controls */
+.try{margin:.9em 0 .2em;color:var(--ink);} .try b{font:1em var(--serif);font-weight:400;color:var(--cobalt);}
+.acts{display:flex;flex-wrap:wrap;gap:.2em 1.5em;margin:0 0 .5em;}
+.act{font:1.02em/1.2 var(--serif);color:var(--ink);background:none;border:0;border-bottom:1.5px solid var(--cobalt);padding:.5em 0 .28em;margin:0;cursor:pointer;min-height:40px;display:inline-flex;align-items:flex-end;gap:.45em;-webkit-tap-highlight-color:transparent;transition:color .2s,border-color .2s;}
+.act::before{content:'';width:.5em;height:.5em;background:var(--cobalt);border-radius:0 50% 50% 50%;transform:rotate(45deg) translate(-.18em,-.18em);flex:none;}
+.act:hover,.act[aria-pressed="true"]{color:var(--cobalt);}
+.act[aria-pressed="true"]{border-bottom-style:dashed;border-color:var(--sand);} .act[aria-pressed="true"]::before{background:var(--sand);}
+.act:disabled{color:var(--ink3);border-color:var(--ink3);cursor:default;} .act:disabled::before{background:var(--ink3);}
+.act:focus-visible,#meter button:focus-visible,#ticks button:focus-visible,.copybtn:focus-visible{outline:2px solid var(--cobalt);outline-offset:3px;}
+.read{font:500 .86em/1.4 var(--sans);color:var(--ink2);font-variant-numeric:tabular-nums;min-height:2.8em;margin:.2em 0 .6em;}
+.read b{font:1.25em var(--serif);font-weight:400;color:var(--ink);}
+.read .msg{display:block;color:#ead9b6;}
+
+/* prompt receipts */
+.receipt{position:relative;background:var(--paper2);margin:.35em 0 1em;padding:1.05em 1.1em 1.15em;font:400 .84em/1.56 var(--mono);color:var(--ink);
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/12px 100%,conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50%/12px 100%;
+  -webkit-mask-composite:source-in;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/12px 100% intersect,conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50%/12px 100%;}
+.receipt .ph{color:var(--cobalt);}
+.rhead{display:flex;justify-content:space-between;align-items:baseline;font:500 .74em/1 var(--sans);color:var(--ink2);margin-top:1em;}
+.copybtn{font:500 1em/1 var(--sans);color:var(--cobalt);background:none;border:0;padding:.7em 0 .7em .7em;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+
+/* slide change: old text sinks, new text rises like a water line */
+@keyframes rise{from{clip-path:inset(100% -4% -10% -4%);transform:translateY(.4em);opacity:.2}to{clip-path:inset(-20% -4% -20% -4%);transform:none;opacity:1}}
+@keyframes sink{to{transform:translateY(.5em);opacity:0}}
+@keyframes lblin{from{opacity:0}to{opacity:1}}
+.slide.enter .copy>*{animation:rise .85s cubic-bezier(.2,.75,.15,1) both;animation-delay:calc(.16s + var(--i,0)*.06s);}
+.slide.enter .tank>*{animation:lblin .7s .62s both;}
+.slide.leave .copy{animation:sink .2s ease-in both;}
+.slide.leave .tank{opacity:0;transition:opacity .15s;}
+
+/* navigation: a tide gauge that fills as you go */
+#gauge{position:fixed;z-index:5;right:max(1.9vw, env(safe-area-inset-right));top:max(5.5vh,env(safe-area-inset-top));bottom:calc(max(3vh, env(safe-area-inset-bottom)) + 62px);width:62px;pointer-events:none;}
+#tube{position:absolute;right:0;top:0;bottom:0;width:7px;border:1px solid rgba(236,234,230,.38);border-top:0;border-radius:0 0 4px 4px;overflow:hidden;}
+#fill{position:absolute;left:0;right:0;bottom:0;height:calc(var(--p,0)*100%);background:linear-gradient(180deg,#d9d0ff,var(--cobalt) 12px,var(--cobalt2));transition:height .7s cubic-bezier(.3,.8,.2,1),width .7s cubic-bezier(.3,.8,.2,1);}
+#ticks{list-style:none;margin:0;padding:0;position:absolute;right:11px;top:0;bottom:0;display:flex;flex-direction:column-reverse;pointer-events:auto;}
+#ticks li{flex:1 1 0;min-height:0;display:flex;}
+#ticks button{flex:1;width:50px;background:none;border:0;padding:0;cursor:pointer;position:relative;}
+#ticks button::after{content:'';position:absolute;right:0;top:50%;height:1px;width:8px;background:var(--ink3);transition:width .35s, background .35s;}
+#ticks li:nth-child(5n+1) button::after,#ticks li:last-child button::after{width:14px;}
+#ticks button.past::after{background:var(--cobalt);}
+#ticks button.cur::after{width:24px;height:2px;margin-top:-1px;background:var(--ink);}
+#ticks button:hover::after{width:20px;background:var(--ink);}
+#ticks button span{position:absolute;right:30px;top:50%;transform:translateY(-50%);font:13px/1 var(--serif);color:var(--ink3);opacity:0;transition:opacity .3s;font-variant-numeric:tabular-nums;}
+#ticks li:nth-child(5n+1) button span,#ticks li:last-child button span{opacity:1;}
+#ticks li button.near span{opacity:0;}
+#ticks button.cur span{opacity:1;color:var(--ink);font-size:17px;}
+#tip{position:fixed;z-index:6;pointer-events:none;font:500 13px/1 var(--sans);color:var(--paper);background:var(--ink);padding:.5em .65em;opacity:0;transition:opacity .2s;white-space:nowrap;}
+#meter{position:fixed;z-index:5;right:max(1.2vw, env(safe-area-inset-right));bottom:max(2.4vh, env(safe-area-inset-bottom));display:flex;align-items:center;gap:.1em;}
+#meter button{background:none;border:0;cursor:pointer;color:var(--ink);font:24px/1 var(--serif);width:44px;height:44px;display:grid;place-items:center;padding:0;border-radius:50%;transition:color .2s,transform .2s;}
+#meter button:hover{color:var(--cobalt);} #meter #next:hover{transform:translateX(2px);} #meter #prev:hover{transform:translateX(-2px);}
+#meter button:disabled{color:var(--ink3);opacity:.4;cursor:default;transform:none;}
+#count{font:clamp(18px,1.4vw,24px)/1 var(--serif);min-width:3.4em;text-align:center;font-variant-numeric:tabular-nums;}
+#count sub{font:500 .55em var(--sans);color:var(--ink2);vertical-align:baseline;}
+
+#cover .tank{background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='w' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23b8a9f5'/><stop offset='.12' stop-color='%236f5fc4'/><stop offset='1' stop-color='%23261d63'/></linearGradient><clipPath id='c'><circle cx='50' cy='56' r='36.4'/></clipPath></defs><rect x='10' y='53' width='80' height='42' fill='url(%23w)' clip-path='url(%23c)'/><path d='M13.6 53h72.8' stroke='%23fff' stroke-width='.7' clip-path='url(%23c)'/><path d='M60 20.4V6M40 20.4V6' stroke='%23e8e8f0' stroke-width='.45' fill='none'/><path d='M60 20.4A37 37 0 1 1 40 20.4' stroke='%23e8e8f0' stroke-width='.45' fill='none'/><path d='M37 6h26M41.2 8.8h17.6' stroke='%23dcc9a3' stroke-width='.9' stroke-linecap='round'/></svg>") center/contain no-repeat;}
+:root[data-wet] #cover .tank{background:none;}
+:root[data-sim="none"] #cover .tank{background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='w' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23b8a9f5'/><stop offset='.12' stop-color='%236f5fc4'/><stop offset='1' stop-color='%23261d63'/></linearGradient><clipPath id='c'><circle cx='50' cy='56' r='36.4'/></clipPath></defs><rect x='10' y='53' width='80' height='42' fill='url(%23w)' clip-path='url(%23c)'/><path d='M13.6 53h72.8' stroke='%23fff' stroke-width='.7' clip-path='url(%23c)'/><path d='M60 20.4V6M40 20.4V6' stroke='%23e8e8f0' stroke-width='.45' fill='none'/><path d='M60 20.4A37 37 0 1 1 40 20.4' stroke='%23e8e8f0' stroke-width='.45' fill='none'/><path d='M37 6h26M41.2 8.8h17.6' stroke='%23dcc9a3' stroke-width='.9' stroke-linecap='round'/></svg>") center/contain no-repeat;}
+/* no simulation at all: a still, drawn water line */
+:root[data-sim="none"] .slide:not(#cover) .tank::before{content:'';position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,#cfc6ff 0,#8a78c2 3px,#4a3d8f 22%,#231d4d);border-top:1px solid #fff;}
+
+/* portrait phones and narrow windows: text above, water below edge to edge, gauge along the bottom */
+@media (max-aspect-ratio: 5/6){
+  :root{--fs:clamp(14.5px,4vw,19px);--padT:max(3.6vh, calc(env(safe-area-inset-top) + 12px));--padB:calc(max(env(safe-area-inset-bottom),8px) + 58px);--padL:max(20px, env(safe-area-inset-left));--padR:max(20px, env(safe-area-inset-right));}
+  .slide,.slide.wide{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(24vh,1fr);row-gap:2.2vh;}
+  .copy{align-self:start;max-height:61vh;max-height:61dvh;padding-right:0;}
+  .tank{margin:1.9em calc(-1*var(--padR)) 0 calc(-1*var(--padL));}
+  .note{right:20px;top:-1.9em;}
+  h1{font-size:3.25em;} h2{font-size:1.95em;} .lede{font-size:1.12em;}
+  .folio{margin-bottom:1em;} .quote{font-size:1.22em;}
+  .cols{grid-template-columns:1fr;}
+  .xp,.lbl.sub{display:none;}
+  .lbl{font-size:clamp(10.5px,2.9vw,13px);} .lbl.big{font-size:clamp(12.5px,3.5vw,17px);} .lbl.ride b{font-size:clamp(13px,3.7vw,18px);}
+  #gauge{left:max(18px,env(safe-area-inset-left));right:150px;top:auto;bottom:max(env(safe-area-inset-bottom),8px);height:44px;width:auto;}
+  #tube{left:0;right:0;top:auto;bottom:9px;width:auto;height:6px;border:1px solid rgba(236,234,230,.38);border-left:0;border-radius:0 4px 4px 0;}
+  #fill{top:0;bottom:0;right:auto;height:auto;width:calc(var(--p,0)*100%);background:linear-gradient(270deg,#d9d0ff,var(--cobalt) 12px,var(--cobalt2));}
+  #ticks{left:0;right:0;top:0;bottom:0;flex-direction:row;}
+  #ticks button{width:auto;}
+  #ticks button::after{right:auto;left:50%;top:auto;bottom:19px;width:1px;height:6px;}
+  #ticks li:nth-child(5n+1) button::after,#ticks li:last-child button::after{width:1px;height:11px;}
+  #ticks button.cur::after{width:2px;height:16px;margin:0 0 0 -1px;}
+  #ticks button:hover::after{width:1px;height:12px;}
+  #ticks button span{display:none;}
+  #meter{bottom:max(env(safe-area-inset-bottom),6px);right:max(8px,env(safe-area-inset-right));}
+  #meter button{width:42px;height:44px;}
+  #count{font-size:18px;min-width:3.2em;}
+}
+/* landscape phones: short and wide */
+@media (max-height: 520px) and (min-aspect-ratio: 5/6){
+  :root{--fs:clamp(12.5px,1.62vw,14.5px);--padT:max(14px, env(safe-area-inset-top));--padB:max(12px, env(safe-area-inset-bottom));--padL:max(22px, env(safe-area-inset-left));--padR:calc(max(10px, env(safe-area-inset-right)) + 58px);}
+  .slide,.slide.wide{grid-template-columns:minmax(0,56fr) minmax(0,40fr);column-gap:22px;}
+  .tank{margin:24px 0 2px;}
+  h1{font-size:3.5em;} h2{font-size:1.9em;} .lede{font-size:1.12em;}
+  p,li{line-height:1.38;margin-bottom:.45em;} .copy li{margin-bottom:.3em;}
+  .folio{margin-bottom:.6em;} .quote{font-size:1.2em;} .receipt{padding:.7em .8em;line-height:1.45;}
+  .lbl{font-size:10px;} .lbl.big{font-size:12.5px;} .lbl.ride b{font-size:13px;} .note{font-size:10px;top:-2em;}
+  .act{min-height:34px;padding-top:.3em;}
+  .lbl.sub{display:none;}
+  #gauge{top:max(12px,env(safe-area-inset-top));bottom:98px;right:max(8px,env(safe-area-inset-right));width:50px;}
+  #ticks button{width:38px;} #ticks button span{font-size:10.5px;right:22px;} #ticks button.cur span{font-size:12px;}
+  #meter{bottom:max(4px,env(safe-area-inset-bottom));right:max(2px,env(safe-area-inset-right));flex-direction:column;gap:0;width:50px;}
+  #meter button{width:44px;height:30px;font-size:20px;}
+  #count{font-size:14px;min-width:0;} #count sub{display:none;}
+}
+@media (prefers-reduced-motion: reduce){
+  .slide.enter .copy>*, .slide.enter .tank>*, .slide.leave .copy{animation:none!important;}
+  .slide.leave{visibility:hidden;}
+  #ticks button::after,#fill{transition:none;}
+}
+</style>
+
+<canvas id="ink" aria-hidden="true"></canvas>
+<main id="deck">
+
+<section class="slide" id="cover" data-scene="cover" data-title="Read-only water">
+  <div class="copy">
+    <p class="folio"><b>Nº 1</b><i></i>Personal Finance in Claude</p>
+    <h1>Your money, <em>read&#8209;only.</em></h1>
+    <p class="lede">Claude can now look at your bank, card, loan and investment accounts through Plaid, and answer questions about them. It can look. It can't move a cent.</p>
+    <p class="small">Beta · United States · Pro, Max and Ultra plans · announced 5 November 2026</p>
+    <p class="small" style="margin-top:1.8em">The water in this deck is live. Stir it with your cursor or a finger: it moves, and it never leaves the glass.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="what" data-scene="what" data-title="What it is">
+  <div class="copy">
+    <p class="folio"><b>Nº 2</b><i></i>What it is</p>
+    <h2>Four kinds of account, <em>one page</em> to ask about them.</h2>
+    <p>Personal Finance is a beta inside Claude. You link the accounts you choose. Claude shows balances and spending on one page and answers questions from your own transactions.</p>
+    <ul>
+      <li>The page is made of widgets: spending, cash flow, accounts, subscriptions, upcoming bills and short insights. You can add, edit, remove and reorder them.</li>
+      <li>Ask on that page or in a regular chat: where last month's money went, which subscriptions you pay for, what's due before payday.</li>
+      <li>Anthropic's own examples go further: compare a month with earlier ones, spot duplicate charges and fees, explain APR and total the interest, build charts and bill calendars.</li>
+    </ul>
+    <p class="src">Sources: Anthropic, “Introducing Personal Finance in Claude”; Claude Help Center; release notes, 5 Nov 2026.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="sees" data-scene="sees" data-title="What it sees">
+  <div class="copy">
+    <p class="folio"><b>Nº 3</b><i></i>What Claude can see</p>
+    <h2>What it reads, and what stays <em>dark.</em></h2>
+    <div class="cols">
+      <div><h3>Reads, for shared accounts only</h3><ul>
+        <li>bank name; account name, type and last four digits</li>
+        <li>balances and credit limits</li>
+        <li>up to 24 months of transactions: amount, date, merchant, category, the bank's description</li></ul></div>
+      <div class="no"><h3>Doesn't read</h3><ul>
+        <li>your bank password: you sign in at Plaid, never in Claude</li>
+        <li>investment holdings or trades</li>
+        <li>interest rates or loan terms</li>
+        <li>accounts you didn't share</li></ul></div>
+    </div>
+    <p class="small">Two gotchas. Plaid's screens may ask consent for investment, credit or loan data, but Claude currently reads only the list above. And a full account number can still slip in if your bank puts it in an account name or a transaction description.</p>
+    <p class="src">Source: Claude Help Center, “Use Personal Finance in Claude”.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="readonly" data-scene="readonly" data-title="It can't move money">
+  <div class="copy">
+    <p class="folio"><b>Nº 4</b><i></i>The one rule</p>
+    <h2>It can look. It can't <em>touch.</em></h2>
+    <p class="quote">“Claude's access to connected accounts is read-only, so it can't move money.”<small>Plaid, announcement post, 5 Nov 2026</small></p>
+    <p>Anthropic says the same: Personal Finance can't move, manage or invest your money. No transfer, no payment, no trade.</p>
+    <p class="try"><b>Try to pour it out.</b> Drag the flask to tilt it, or:</p>
+    <div class="acts">
+      <button class="act" type="button" data-do="flip">Tip it upside down</button>
+      <button class="act" type="button" data-do="shake">Shake it</button>
+      <button class="act" type="button" data-do="pull">Pull the stopper</button>
+      <button class="act" type="button" data-do="sensor" hidden>Use phone tilt</button>
+    </div>
+    <p class="read" aria-live="polite"><b data-out="n">0</b> drops in the flask · <b>0</b> poured out<span class="msg" data-out="msg"></span></p>
+    <p class="small xp">What it can get wrong is a number. Ask which transactions support a figure, and check important ones with your bank.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="path" data-scene="path" data-title="The data path">
+  <div class="copy">
+    <p class="folio"><b>Nº 5</b><i></i>Under the hood</p>
+    <h2>The path your <em>data</em> takes.</h2>
+    <ol>
+      <li><b>You sign in at Plaid.</b> Plaid is a service that links apps to banks. Claude never asks for or sees your bank password.</li>
+      <li><b>You consent at Plaid.</b> You approve read-only access and pick which accounts to share.</li>
+      <li><b>Plaid passes figures on.</b> It shares what the feature needs, organizes the raw transaction data and refreshes it when needed.</li>
+      <li><b>Claude answers.</b> The data is used to respond to your requests. Hosting providers handle it too, and Plaid handles it under its own terms and privacy policy.</li>
+    </ol>
+    <p class="small">Expect a lag: balances can be a day or two old and may differ from your bank's.</p>
+    <p class="src">Sources: Help Center; Plaid blog; Anthropic announcement.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="link" data-scene="stairs" data-title="Linking in seven steps">
+  <div class="copy">
+    <p class="folio"><b>Nº 6</b><i></i>How to link</p>
+    <h2>Linking, in <em>seven</em> steps.</h2>
+    <ol class="sync">
+      <li>Open <span class="ui">Personal Finance</span> in the side menu. Not there? Hover over <span class="ui">More</span>.</li>
+      <li>Select <span class="ui">Get started</span>.</li>
+      <li>Choose your goals, or skip them, then <span class="ui">Continue</span>.</li>
+      <li>Select <span class="ui">Link accounts with Plaid</span>.</li>
+      <li>On <span class="ui">Connect Plaid to Claude</span>, review the access, then <span class="ui">Continue</span>.</li>
+      <li>In Plaid: choose your bank, sign in, choose the accounts to share.</li>
+      <li>Back in Claude, wait for the accounts to appear, then <span class="ui">Link another account</span> or <span class="ui">Done</span>.</li>
+    </ol>
+    <p class="small">Finish Plaid within 10 minutes and come straight back. Transactions can take a few minutes to sync.</p>
+    <p class="src">Source: Help Center, whose ten small steps are grouped into seven here. Button names quoted from it.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="more" data-scene="more" data-title="Up to 16 banks">
+  <div class="copy">
+    <p class="folio"><b>Nº 7</b><i></i>More banks, and the awkward cases</p>
+    <h2>Up to <em>16</em> banks.</h2>
+    <ul>
+      <li>Add one with <span class="ui">Link another account</span>: top of the page on web and Desktop, behind the gear icon on iOS and Android. At 16 you must unlink one first.</li>
+      <li>New account at a bank you already linked? Link that bank again and share every account you want included.</li>
+      <li>If Claude says the bank is already linked: <span class="ui">Switch to the new link</span> replaces the old sign-in, <span class="ui">Keep it as it is</span> links nothing new, <span class="ui">Keep both</span> is for a second login such as a joint or business one.</li>
+      <li>With <span class="ui">Keep both</span>, totals can double-count an account the bank shows two ways.</li>
+    </ul>
+    <div class="acts">
+      <button class="act" type="button" data-do="add">Link another account</button>
+      <button class="act" type="button" data-do="reset">Start over</button>
+    </div>
+    <p class="read" aria-live="polite"><b data-out="n">3</b> of 16 banks linked<span class="msg" data-out="msg"></span></p>
+    <p class="src">Source: Help Center.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="unlink" data-scene="unlink" data-title="Unlinking">
+  <div class="copy">
+    <p class="folio"><b>Nº 8</b><i></i>How to unlink</p>
+    <h2>Closing the <em>window.</em></h2>
+    <ol>
+      <li>In Personal Finance, open your linked accounts: <span class="ui">…</span> then <span class="ui">Manage linked accounts</span> on web and Desktop, the gear icon on mobile.</li>
+      <li>Select <span class="ui">Unlink</span> on the bank (on mobile, tap the bank first), then <span class="ui">Unlink</span> again to confirm.</li>
+    </ol>
+    <p>Claude stops reading every account under that bank login; you can't unlink a single account. Your money doesn't go anywhere. Past chats, artifacts and shared links keep what they said until you delete them.</p>
+    <div class="acts">
+      <button class="act" type="button" data-do="u0" aria-pressed="false">Unlink bank A</button>
+      <button class="act" type="button" data-do="u1" aria-pressed="false">Unlink bank B</button>
+      <button class="act" type="button" data-do="u2" aria-pressed="false">Unlink bank C</button>
+    </div>
+    <p class="read" aria-live="polite"><span data-out="state">3 banks linked. The dashboard is intact.</span><span class="msg" data-out="msg"></span></p>
+    <p class="small">To stop entirely: <span class="ui">Unlink all banks</span>, or disconnect Claude at my.plaid.com. If a bank ends access itself, <span class="ui">Sign in again</span> restores it and the dashboard stays as it was.</p>
+    <p class="src">Source: Help Center.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="privacy" data-scene="jars" data-title="Privacy and training">
+  <div class="copy">
+    <p class="folio"><b>Nº 9</b><i></i>Privacy, memory and training</p>
+    <h2>What happens to the <em>conversation.</em></h2>
+    <ul>
+      <li>Chats in the Personal Finance hub aren't used to train Anthropic's models. Outside the hub, your usual privacy settings apply.</li>
+      <li>Chats that used your accounts are designed not to be saved to memory, can't be searched later and are left out of your monthly recap, title included.</li>
+      <li>Your data stays in chat history until you delete the chat, subject to Anthropic's retention practices.</li>
+      <li>Claude asks before publishing an artifact from such a chat. The artifact can hold bank data and outlives the chat. A shared chat link shows the account figures in it.</li>
+      <li>An artifact can read the linked accounts of whoever opens it, if they have Personal Finance and allow Plaid.</li>
+    </ul>
+    <p class="src">Sources: Help Center; Anthropic announcement.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="switch" data-scene="taps" data-title="Per-chat controls">
+  <div class="copy">
+    <p class="folio"><b>Nº 10</b><i></i>Controls</p>
+    <h2>Who opens the <em>tap.</em></h2>
+    <p>By default Claude reads your linked accounts in a chat without asking each time. It always asks before linking or unlinking a bank in a chat.</p>
+    <ul>
+      <li><b>Web and Desktop:</b> click <span class="ui">+</span> in the message box, then <span class="ui">Connectors</span>, and switch <span class="ui">Plaid</span> off or on.</li>
+      <li><b>iOS and Android:</b> tap <span class="ui">+</span>, <span class="ui">Connectors</span>, <span class="ui">Plaid</span>. Under <span class="ui">All tools</span> (Android: <span class="ui">Set all tools</span>) choose <span class="ui">Blocked</span> or <span class="ui">Always allow</span>.</li>
+      <li><span class="ui">Needs approval</span> asks before each read, unless the chat is set to <span class="ui">Automatically approve</span>. Your choice applies to new chats too.</li>
+    </ul>
+    <div class="acts"><button class="act" type="button" data-do="approve">Approve one read</button></div>
+    <p class="src">Source: Help Center. Setting names quoted from it.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="who" data-scene="plans" data-title="Availability">
+  <div class="copy">
+    <p class="folio"><b>Nº 11</b><i></i>Availability and cost</p>
+    <h2>Who gets it, <em>where.</em></h2>
+    <ul>
+      <li>Beta, United States and US banks only. It has been rolling out gradually since 5 November 2026, so it may not show up for you yet.</li>
+      <li>Pro, Max and Ultra plans, at no stated extra charge. Not Free, Team or Enterprise.</li>
+      <li>Claude on the web, Claude Desktop, and the iOS and Android apps.</li>
+      <li>Travelling, or on a VPN that exits in another country? It hides until you're back. Your banks stay linked.</li>
+      <li>Not in Claude Duet, scheduled tasks, Cowork tasks or Claude Code. It may not work inside projects.</li>
+    </ul>
+    <p class="src">Sources: Help Center; release notes; Anthropic announcement. No change found as of 16 Nov 2026.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="limits" data-scene="lag" data-title="Limits and gotchas">
+  <div class="copy">
+    <p class="folio"><b>Nº 12</b><i></i>Limits and gotchas</p>
+    <h2>Read this before you <em>trust a total.</em></h2>
+    <ul>
+      <li>Balances can be a day or two old, and figures may differ from your bank's.</li>
+      <li>A bank Claude can't read is left out of spending figures, so a budget can show more money left than you have.</li>
+      <li>In chats that used your accounts Claude shows text and tables and can make plain-text files such as .csv. Running code and Word, Excel, PowerPoint or PDF files may not work.</li>
+      <li>A chat that already ran code, made files or started from an artifact can't use your accounts. Start a new chat outside a project.</li>
+      <li>If your paid plan ends you can't open it, but banks stay linked until you unlink them. Moving to a Team or Enterprise organization unlinks them; so does deleting your account.</li>
+    </ul>
+    <p class="src">Source: Help Center.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="advice" data-scene="lens" data-title="Not financial advice">
+  <div class="copy">
+    <p class="folio"><b>Nº 13</b><i></i>How Anthropic frames it</p>
+    <h2>A sharp pair of eyes, <em>not an adviser.</em></h2>
+    <p class="lede">Anthropic says Personal Finance helps you understand your money and isn't designed to give investment advice.</p>
+    <ul>
+      <li>No ads and no sponsored recommendations.</li>
+      <li>Anthropic sells no financial products of its own: no credit cards, loans or savings accounts.</li>
+      <li>For bigger decisions, Anthropic calls this a first step and says it is exploring how Claude could work alongside licensed professionals and regulated firms.</li>
+      <li>Never share your bank login or full account numbers with anyone, Claude Support included.</li>
+    </ul>
+    <p class="small">Nothing in this deck is financial advice either. Move the lens over the water: it reads, and that's all it does.</p>
+    <p class="src">Sources: Anthropic announcement; Help Center.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide wide" id="p1" data-scene="bins" data-title="Project 1: spending review">
+  <div class="copy">
+    <p class="folio"><b>Nº 14</b><i></i>First project, part 1 of 4</p>
+    <h2>The monthly <em>spending review.</em></h2>
+    <p>Link one account, open Personal Finance, and paste this:</p>
+    <div class="rhead"><span>Prompt</span><button class="copybtn" type="button">Copy</button></div>
+    <div class="receipt">Total what I spent last month across my linked accounts, grouped by category. Compare each category with the two months before, flag any that rose by more than 20%, and list the transactions behind the three biggest categories.</div>
+    <p class="small">Then follow up: “Turn that into a weekly spending chart on my dashboard.” Ask which transactions sit behind any figure that looks off.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide wide" id="p2" data-scene="drips" data-title="Project 2: subscription audit">
+  <div class="copy">
+    <p class="folio"><b>Nº 15</b><i></i>First project, part 2 of 4</p>
+    <h2>The subscription <em>audit.</em></h2>
+    <div class="rhead"><span>Prompt</span><button class="copybtn" type="button">Copy</button></div>
+    <div class="receipt">Find every recurring charge in the last 12 months. For each one give the merchant, how often it bills, the latest amount and whether the price has gone up. Flag possible duplicate charges and fees I might not expect, and show the transactions you used.</div>
+    <p class="small">Claude can't cancel anything: access is read-only. You cancel with the merchant yourself.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide wide" id="p3" data-scene="debt" data-title="Project 3: debt payoff picture">
+  <div class="copy">
+    <p class="folio"><b>Nº 16</b><i></i>First project, part 3 of 4</p>
+    <h2>The debt <em>payoff picture.</em></h2>
+    <p class="small">Claude sees card and loan balances and credit limits, not their rates or terms. Type your rates in.</p>
+    <div class="rhead"><span>Prompt</span><button class="copybtn" type="button">Copy</button></div>
+    <div class="receipt">List my card and loan balances and credit limits. My rates are <span class="ph">[card: 24.9% APR]</span> and <span class="ph">[car loan: 6.4% APR]</span>. Explain what APR means here, estimate this month's interest on each, and show how long each takes to clear if I pay <span class="ph">[$400]</span> a month in total, smallest balance first versus highest rate first. Show your math.</div>
+    <p class="small">Bracketed values are placeholders: swap in your own.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide wide" id="p4" data-scene="networth" data-title="Project 4: net-worth snapshot">
+  <div class="copy">
+    <p class="folio"><b>Nº 17</b><i></i>First project, part 4 of 4</p>
+    <h2>The net-worth <em>snapshot.</em></h2>
+    <div class="rhead"><span>Prompt</span><button class="copybtn" type="button">Copy</button></div>
+    <div class="receipt">Make a net-worth snapshot: add the balances of my checking, savings and investment accounts, subtract my card and loan balances, and show it as a table by account. Say how current each balance is, and point out any account that looks missing or double-counted.</div>
+    <p class="small">Investments show balances only, not holdings, so this is a top-line number, not a portfolio review. If you used <span class="ui">Keep both</span> at one bank, check for double counting.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="gaps" data-scene="float" data-title="Not yet published">
+  <div class="copy">
+    <p class="folio"><b>Nº 18</b><i></i>Open questions</p>
+    <h2>What isn't <em>published</em> yet.</h2>
+    <ul>
+      <li><b>Price.</b> No add-on price is stated. It comes with the Pro, Max and Ultra plans.</li>
+      <li><b>Which banks.</b> No list or count. The Help Center says US banks only. Plaid says Anthropic joins more than 800 AI companies building with it; that isn't a bank count.</li>
+      <li><b>Refresh schedule.</b> None given. Balances can be a day or two old; Plaid says it refreshes data when needed.</li>
+      <li><b>Retention period.</b> No fixed number of days. Data stays in chat history until you delete the chat, subject to retention practices.</li>
+      <li><b>Other countries and plans.</b> No dates.</li>
+    </ul>
+    <p class="src">Checked against the four sources on the last page, 16 Nov 2026.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+<section class="slide" id="end" data-scene="end" data-title="Sources">
+  <div class="copy">
+    <p class="folio"><b>Nº 19</b><i></i>Sources</p>
+    <h2>Ask it anything. It can <em>only look.</em></h2>
+    <ul class="srcs">
+      <li><a href="https://claude.com/resources/articles/introducing-personal-finance-in-claude" target="_blank" rel="noopener">Introducing Personal Finance in Claude</a><small>Anthropic, 5 November 2026</small></li>
+      <li><a href="https://support.claude.com/en/articles/18185620-use-personal-finance-in-claude" target="_blank" rel="noopener">Use Personal Finance in Claude</a><small>Claude Help Center</small></li>
+      <li><a href="https://support.claude.com/en/articles/12138966-release-notes" target="_blank" rel="noopener">Claude release notes</a><small>entry of 5 November 2026; nothing newer on this feature</small></li>
+      <li><a href="https://plaid.com/blog/plaid-anthropic-financial-insights-in-claude/" target="_blank" rel="noopener">Plaid’s announcement of the partnership</a><small>Plaid, 5 November 2026</small></li>
+    </ul>
+    <p class="small">All four read again on 16 November 2026. The water, vessels and dollar figures in this deck are illustrations: not the product's interface, and not real account data.</p>
+  </div>
+  <div class="tank"></div>
+</section>
+
+</main>
+
+<nav id="gauge" aria-label="Slides"><div id="tube"><i id="fill"></i></div><ol id="ticks"></ol></nav>
+<div id="meter"><button id="prev" type="button" aria-label="Previous slide">←</button><span id="count">1<sub> / 19</sub></span><button id="next" type="button" aria-label="Next slide">→</button></div>
+<div id="tip"></div>
+
+<script type="text/plain" id="sim-src">/* Read-Only Water: the liquid.
+   Physics: particle fluid (double-density relaxation), spatial hash, capsule walls, on the CPU in a worker.
+   Picture: screen-space liquid on WebGL2 in the same worker (OffscreenCanvas): particles are splatted into a
+   half-float field, blurred, then shaded per pixel: refraction of the ledger plate behind, depth absorption,
+   caustic net, meniscus, glints and foam. Falls back to a 2D-canvas shader loop if WebGL2 is missing. */
+const S = self;
+const raf = (typeof S.requestAnimationFrame === 'function') ? (f) => S.requestAnimationFrame(f) : (f) => setTimeout(() => f(performance.now()), 16);
+const mk = (w, h) => (typeof OffscreenCanvas !== 'undefined') ? new OffscreenCanvas(w, h) : Object.assign(document.createElement('canvas'), { width: w, height: h });
+const MAX = 4200, NB = 48;
+const px = new Float32Array(MAX), py = new Float32Array(MAX), vx = new Float32Array(MAX), vy = new Float32Array(MAX);
+const ox = new Float32Array(MAX), oy = new Float32Array(MAX), d1 = new Float32Array(MAX), d2 = new Float32Array(MAX);
+const order = new Int32Array(MAX), cellOf = new Int32Array(MAX), grp = new Uint8Array(MAX);
+const nbJ = new Int32Array(NB), nbQ = new Float32Array(NB), nbU = new Float32Array(NB), nbV = new Float32Array(NB);
+const GOFF = [-2.356, -0.785, 0.785, 2.356];
+const G = 0.0026, K = 0.16, KN = 0.34, RHO0 = 1.25, PR = 0.4, PRW = 0.34, SUB = 3, VMAX = 0.32;
+let N = 0, T = 0, target = MAX, W = 1, H = 1, sc = 20, TX = 0, TY = 0, TW = 1, TH = 1, VW = 1, VH = 1, dpr = 1, rs = 1, q = 1;
+let cv = null, gl = null, c2 = null, mode = '', reduced = false, running = false, paused = false, wake = 0, forceCPU = false;
+let def = null, walls = [], gates = [], srcs = [], drains = [], zones = [], drips = [], regs = [], shades = [], pours = [], marks = [], fills = [];
+let gmode = 'down', ga = 0, cycle = 0, noframe = false, kick = 0;
+let gw = 1, gh = 1, cellStart = new Int32Array(2), cellCnt = new Int32Array(2);
+let ptr = { x: -1e4, y: -1e4, dx: 0, dy: 0, t: 0, stir: 1, seen: 0 }, lens = { x: .5, y: .5, a: 0, auto: false, seen: 0 };
+let reveal = 1, phase = '', pending = null, lastNow = 0, clock = 0;
+let frames = 0, lastStat = 0, slow = 0, simMs = 0;
+let ov = null, octx = null, ow = 1, oh = 1, os = 1, ovDirty = true, plate = null, plateDirty = false;
+
+function active(tm) { if (!tm) return true; const ph = (T / (tm[0] * 60)) % 1; return ph >= tm[1] && ph < tm[2]; }
+
+/* ---------- scene ---------- */
+function apply(d, rect) {
+  def = d;
+  TX = rect.x; TY = rect.y; TW = Math.max(40, rect.w); TH = Math.max(40, rect.h);
+  sc = Math.sqrt(TW * TH / (2420 * q)); W = TW / sc; H = TH / sc;
+  N = 0; T = 0; pours = []; kick = 0;
+  const seg = (a, f) => ({ ax: a[0] * W, ay: a[1] * H, bx: a[2] * W, by: a[3] * H, r: f === 'p' ? 0.13 : 0.17, f: f || '' });
+  walls = (d.walls || []).map(w => seg(w, w[4]));
+  gates = (d.gates || []).map(g => Object.assign(seg(g.s, 'x'), { tm: g.tm, closed: g.closed !== false }));
+  srcs = (d.src || []).map(o => ({ x: o.u * W, y: o.v * H, vx: o.vx || 0, vy: o.vy || 0, sp: (o.sp || 0.04) * W, tm: o.tm, rate: (o.rate || 2) * Math.sqrt(q), acc: 0, d: o.d || [0, 0] }));
+  drains = (d.drains || []).map(o => ({ x0: o.r[0] * W, y0: o.r[1] * H, x1: o.r[2] * W, y1: o.r[3] * H + 9, tm: o.tm, rb: o.rb, b: 0 }));
+  zones = (d.zones || []).map(o => ({ x0: o.r[0] * W, y0: o.r[1] * H, x1: o.r[2] * W, y1: o.r[3] * H, d: o.d }));
+  drips = (d.drips || []).map(o => ({ x: o.u * W, y: o.v * H, p: o.p, ph: o.ph || 0, d: o.d || null, n: Math.round((o.n || 26) * q), r: o.r ? [o.r[0] * W, o.r[1] * H, o.r[2] * W, o.r[3] * H] : null }));
+  regs = (d.regs || []).map(o => ({ x0: o[0] * W, y0: o[1] * H, x1: o[2] * W, y1: o[3] * H }));
+  shades = (d.shades || []).map(o => ({ r: o.r, v: o.v || 0, a: o.v || 0 }));
+  marks = d.marks || []; fills = d.fills || [];
+  HC = null; if (d.hard) { const m = Math.min(TW, TH) / sc, h = d.hard; HC = { x: h[0] * W, y: h[1] * H, R: h[2] * m - 0.5, hw: h[3] * m - 0.5, top: h[1] * H - h[4] * m + 0.5 }; }
+  gmode = d.g || 'down'; cycle = d.cycle || 0; noframe = !!d.noframe;
+  if (gmode !== 'tilt') ga = 0;
+  lens.auto = !!d.lens; lens.a = 0;
+  gw = Math.ceil(W) + 2; gh = Math.ceil(H) + 2;
+  if (cellCnt.length < gw * gh + 1) { cellCnt = new Int32Array(gw * gh + 1); cellStart = new Int32Array(gw * gh + 1); }
+  fills.forEach((f, k) => latticeFill(f, k));
+  target = d.n ? Math.min(MAX, Math.round(d.n * 8000 * q)) : Math.min(MAX, N + Math.round((d.extra || 0) * q));
+  setupRender();
+  const pre = reduced ? Math.max(240, d.pre || 0) : (d.pre || 14);
+  for (let k = 0; k < pre; k++) tick();
+  ovDirty = true;
+}
+function nearWall(x, y) {
+  for (const w of walls) {
+    const ex = w.bx - w.ax, ey = w.by - w.ay, l2 = ex * ex + ey * ey;
+    let t = l2 > 0 ? ((x - w.ax) * ex + (y - w.ay) * ey) / l2 : 0; t = t < 0 ? 0 : t > 1 ? 1 : t;
+    const dx = x - w.ax - t * ex, dy = y - w.ay - t * ey;
+    if (dx * dx + dy * dy < (w.r + PRW + 0.05) ** 2) return true;
+  }
+  return false;
+}
+function latticeFill(f, k) {
+  const x0 = f.r[0] * W + PR, x1 = f.r[2] * W - PR, yb = f.r[3] * H - PR, yt = f.r[1] * H;
+  const top = yb - (yb - yt) * (f.lvl === undefined ? 1 : f.lvl), sp = 0.56, rh = sp * 0.866;
+  let cx = 0, cy = 0, cr2 = -1;
+  if (f.circ) { const m = Math.min(TW, TH) / sc; cx = f.circ[0] * W; cy = f.circ[1] * H; cr2 = (f.circ[2] * m - 0.6) ** 2; }
+  for (let r = 0, y = yb; y > top; r++, y -= rh) for (let x = x0 + (r % 2 ? sp / 2 : 0); x < x1; x += sp) {
+    if (cr2 >= 0) { const dx = x - cx, dy = y - cy; if (dx * dx + dy * dy > cr2) continue; }
+    if (nearWall(x, y)) continue;
+    if (N >= MAX) return;
+    spawn(x + (Math.random() - 0.5) * 0.02, y, 0, 0, f.d); grp[N - 1] = k & 3;
+  }
+}
+function spawn(x, y, vX, vY, d) {
+  if (N >= MAX) return;
+  const i = N++;
+  px[i] = x; py[i] = y; ox[i] = x - vX; oy[i] = y - vY; vx[i] = vX; vy[i] = vY;
+  d1[i] = d ? d[0] : 0; d2[i] = d ? d[1] : 0; grp[i] = (Math.random() * 4) | 0;
+}
+function kill(i) {
+  const l = --N;
+  px[i] = px[l]; py[i] = py[l]; vx[i] = vx[l]; vy[i] = vy[l]; ox[i] = ox[l]; oy[i] = oy[l]; d1[i] = d1[l]; d2[i] = d2[l]; grp[i] = grp[l];
+}
+function emit() {
+  for (const s of srcs) {
+    if (!active(s.tm)) { s.acc = 0; continue; }
+    s.acc += s.rate;
+    while (s.acc >= 1) {
+      s.acc -= 1; if (N >= target) { s.acc = 0; break; }
+      const x = Math.min(W - PR, Math.max(PR, s.x + (Math.random() - 0.5) * 2 * s.sp)), y = Math.max(PR, s.y + (Math.random() - 0.5) * 1.4);
+      spawn(x, y, s.vx + (Math.random() - 0.5) * 0.02, s.vy || 0.07, s.d);
+    }
+  }
+  for (let k = pours.length - 1; k >= 0; k--) {
+    const p = pours[k];
+    for (let j = 0; j < 7 && p.left > 0 && N < MAX; j++, p.left--) spawn(p.x + (Math.random() - 0.5) * 2 * p.sp, p.y + (Math.random() - 0.5) * 1.6, 0, 0.12, p.d);
+    if (p.left <= 0) pours.splice(k, 1);
+  }
+}
+
+/* ---------- physics ---------- */
+function buildGrid() {
+  cellCnt.fill(0, 0, gw * gh + 1);
+  for (let i = 0; i < N; i++) {
+    let cx = (px[i] + 1) | 0, cy = (py[i] + 1) | 0;
+    if (cx < 0) cx = 0; else if (cx >= gw) cx = gw - 1;
+    if (cy < 0) cy = 0; else if (cy >= gh) cy = gh - 1;
+    const c = cy * gw + cx; cellOf[i] = c; cellCnt[c + 1]++;
+  }
+  for (let c = 0; c < gw * gh; c++) cellCnt[c + 1] += cellCnt[c];
+  cellStart.set(cellCnt.subarray(0, gw * gh + 1));
+  for (let i = 0; i < N; i++) order[cellStart[cellOf[i]]++] = i;
+}
+function relax() {
+  for (let i = 0; i < N; i++) {
+    const xi = px[i], yi = py[i], c = cellOf[i], ccx = c % gw, ccy = (c / gw) | 0;
+    let rho = 0, rhon = 0, m = 0;
+    for (let yy = ccy - 1; yy <= ccy + 1; yy++) {
+      if (yy < 0 || yy >= gh) continue;
+      for (let xx = ccx - 1; xx <= ccx + 1; xx++) {
+        if (xx < 0 || xx >= gw) continue;
+        const cc = yy * gw + xx, e = cellCnt[cc + 1];
+        for (let k = cellCnt[cc]; k < e; k++) {
+          const j = order[k]; if (j === i) continue;
+          const dx = px[j] - xi, dy = py[j] - yi, r2 = dx * dx + dy * dy;
+          if (r2 >= 1 || r2 < 1e-9) continue;
+          const r = Math.sqrt(r2), qq = 1 - r;
+          rho += qq * qq; rhon += qq * qq * qq;
+          if (m < NB) { nbJ[m] = j; nbQ[m] = qq; nbU[m] = dx / r; nbV[m] = dy / r; m++; }
+        }
+      }
+    }
+    const P = K * (rho - RHO0), Pn = KN * rhon;
+    let ax = 0, ay = 0;
+    for (let k = 0; k < m; k++) {
+      const qq = nbQ[k], Dd = 0.5 * (P * qq + Pn * qq * qq), j = nbJ[k];
+      const dx = Dd * nbU[k], dy = Dd * nbV[k];
+      px[j] += dx; py[j] += dy; ax -= dx; ay -= dy;
+      const du = (vx[i] - vx[j]) * nbU[k] + (vy[i] - vy[j]) * nbV[k];
+      if (du > 0) { const I = 0.5 * qq * (0.1 * du + 0.12 * du * du); vx[i] -= I * nbU[k]; vy[i] -= I * nbV[k]; vx[j] += I * nbU[k]; vy[j] += I * nbV[k]; }
+    }
+    px[i] += ax; py[i] += ay;
+  }
+}
+function collideWall(i, w) {
+  const x = px[i], y = py[i], rr = w.r + PRW;
+  const minx = (w.ax < w.bx ? w.ax : w.bx) - rr, maxx = (w.ax > w.bx ? w.ax : w.bx) + rr;
+  if (x < minx || x > maxx) return;
+  const miny = (w.ay < w.by ? w.ay : w.by) - rr, maxy = (w.ay > w.by ? w.ay : w.by) + rr;
+  if (y < miny || y > maxy) return;
+  const ex = w.bx - w.ax, ey = w.by - w.ay, l2 = ex * ex + ey * ey;
+  let t = l2 > 0 ? ((x - w.ax) * ex + (y - w.ay) * ey) / l2 : 0; t = t < 0 ? 0 : t > 1 ? 1 : t;
+  const qx = w.ax + t * ex, qy = w.ay + t * ey;
+  let dx = x - qx, dy = y - qy, dd = dx * dx + dy * dy;
+  if (dd >= rr * rr) return;
+  let d = Math.sqrt(dd);
+  if (d < 1e-6) { dx = ox[i] - qx; dy = oy[i] - qy; d = Math.hypot(dx, dy); if (d < 1e-6) { dx = -ey; dy = ex; d = Math.hypot(dx, dy) || 1; } }
+  px[i] = qx + dx / d * rr; py[i] = qy + dy / d * rr;
+  ox[i] += (px[i] - ox[i]) * 0.012; oy[i] += (py[i] - oy[i]) * 0.012;
+}
+let liveGates = [], HC = null;
+function collide() {
+  for (let i = 0; i < N; i++) {
+    for (let w = 0; w < walls.length; w++) collideWall(i, walls[w]);
+    for (let w = 0; w < liveGates.length; w++) collideWall(i, liveGates[w]);
+    if (HC) { const dx = px[i] - HC.x, dy = py[i] - HC.y, r2 = dx * dx + dy * dy;
+      if (r2 > HC.R * HC.R) { if (dy < 0 && Math.abs(dx) < HC.hw + 0.35) { if (dx > HC.hw) px[i] = HC.x + HC.hw; else if (dx < -HC.hw) px[i] = HC.x - HC.hw; if (py[i] < HC.top) py[i] = HC.top; } else { const k = HC.R / Math.sqrt(r2); px[i] = HC.x + dx * k; py[i] = HC.y + dy * k; } } }
+    if (px[i] < PR) px[i] = PR; else if (px[i] > W - PR) px[i] = W - PR;
+    if (py[i] < PR) py[i] = PR; else if (py[i] > H - PR) py[i] = H - PR;
+  }
+}
+function step(fr) {
+  const gx = G * Math.sin(ga), gy = G * Math.cos(ga), zero = gmode === 'zero';
+  const pon = ptr.t > 0 && ptr.stir, pxl = ptr.x, pyl = ptr.y, R2 = 16;
+  let kx = 0, ky = 0; if (kick > 0) { kx = Math.sin(kick * 1.9) * 0.012; ky = -0.004; }
+  for (let i = 0; i < N; i++) {
+    if (zero) {
+      const k = grp[i], ph = fr * 0.0016 + GOFF[k];
+      const ax = W * (0.5 + 0.25 * Math.cos(ph) + 0.05 * Math.sin(fr * 0.0037 + k)), ay = H * (0.5 + 0.25 * Math.sin(ph));
+      let fx = (ax - px[i]) * 0.0005, fy = (ay - py[i]) * 0.0005;
+      const fm = Math.hypot(fx, fy); if (fm > 0.003) { fx *= 0.003 / fm; fy *= 0.003 / fm; }
+      vx[i] = vx[i] * 0.985 + fx; vy[i] = vy[i] * 0.985 + fy;
+    } else { vx[i] += gx + kx; vy[i] += gy + ky; }
+    if (pon) {
+      const dx = px[i] - pxl, dy = py[i] - pyl, dd = dx * dx + dy * dy;
+      if (dd < R2) { const f = (1 - dd / R2) * 0.07; vx[i] += ptr.dx * f; vy[i] += ptr.dy * f; }
+    }
+    const s2 = vx[i] * vx[i] + vy[i] * vy[i];
+    if (s2 > VMAX * VMAX) { const s = VMAX / Math.sqrt(s2); vx[i] *= s; vy[i] *= s; }
+    ox[i] = px[i]; oy[i] = py[i]; px[i] += vx[i]; py[i] += vy[i];
+  }
+  buildGrid(); relax(); collide();
+  for (let i = 0; i < N; i++) { vx[i] = (px[i] - ox[i]) * 0.998; vy[i] = (py[i] - oy[i]) * 0.998; }
+}
+function after() {
+  for (const d of drains) d.b = d.rb === undefined ? 1e9 : d.rb;
+  if (drains.length) for (let i = N - 1; i >= 0; i--) {
+    for (const d of drains) {
+      if (d.b > 0 && px[i] >= d.x0 && px[i] <= d.x1 && py[i] >= d.y0 && py[i] <= d.y1 && active(d.tm)) { kill(i); d.b--; break; }
+    }
+  }
+  if (zones.length) for (let i = 0; i < N; i++) {
+    for (const z of zones) if (px[i] >= z.x0 && px[i] <= z.x1 && py[i] >= z.y0 && py[i] <= z.y1) { d1[i] += (z.d[0] - d1[i]) * 0.04; d2[i] += (z.d[1] - d2[i]) * 0.04; break; }
+  }
+  for (const d of drips) {
+    if (N > 40 && (T + d.ph) % d.p === 0) {
+      for (let k = 0; k < d.n; k++) {
+        let best = -1, by = -1;
+        for (let t = 0; t < 12; t++) {
+          const i = (Math.random() * N) | 0;
+          if (d.r && (px[i] < d.r[0] || px[i] > d.r[2] || py[i] < d.r[1] || py[i] > d.r[3])) continue;
+          if (py[i] > by) { by = py[i]; best = i; }
+        }
+        if (best < 0) continue;
+        const a = Math.random() * 6.283, r = Math.sqrt(Math.random()) * Math.sqrt(d.n * 0.3 / 3.14);
+        const x = d.x + Math.cos(a) * r, y = d.y + 1.6 + Math.sin(a) * r;
+        px[best] = x; py[best] = y; ox[best] = x; oy[best] = y - 0.03; vx[best] = 0; vy[best] = 0.03;
+        if (d.d) { d1[best] = d.d[0]; d2[best] = d.d[1]; }
+      }
+    }
+  }
+}
+function tick() {
+  T++;
+  if (cycle && T % cycle === 0) { N = 0; pours = []; fills.forEach((f, k) => latticeFill(f, k)); if (def.cycleWipe !== false) { reveal = 0; phase = 'in'; } }
+  liveGates = gates.filter(g => g.tm ? active(g.tm) : g.closed);
+  emit();
+  for (let s = 0; s < SUB; s++) step(T * SUB + s);
+  after();
+  if (ptr.t > 0) { ptr.t--; ptr.dx *= 0.85; ptr.dy *= 0.85; }
+  if (kick > 0) kick--;
+}
+function live() {
+  const r = [];
+  for (const g of regs) {
+    const rows = Math.max(1, Math.ceil((g.y1 - g.y0) / 0.6)), hist = new Uint16Array(rows); let c = 0;
+    for (let i = 0; i < N; i++) if (px[i] >= g.x0 && px[i] <= g.x1 && py[i] >= g.y0 && py[i] <= g.y1) { c++; hist[Math.min(rows - 1, ((py[i] - g.y0) / 0.6) | 0)]++; }
+    const need = Math.max(2, 0.3 * (g.x1 - g.x0) / 0.56); let sy = g.y1;
+    for (let k = 0; k < rows; k++) if (hist[k] >= need) { sy = g.y0 + k * 0.6; break; }
+    r.push(c, sy / H);
+  }
+  const m = { type: 'live', n: N, r, sid: def ? def.sid : 0 };
+  if (gmode === 'zero') {
+    const cx = [0, 0, 0, 0], cy = [0, 0, 0, 0], cn = [0, 0, 0, 0];
+    for (let i = 0; i < N; i++) { const k = grp[i]; cx[k] += px[i]; cy[k] += py[i]; cn[k]++; }
+    m.g = [0, 1, 2, 3].map(k => [cx[k] / (cn[k] || 1) / W, cy[k] / (cn[k] || 1) / H]);
+  }
+  S.postMessage(m);
+}
+
+/* ---------- overlay: glass, seals, gates, shades (2D, uploaded as a texture) ---------- */
+function drawOverlay() {
+  const c = octx; c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, ow, oh); c.setTransform(os, 0, 0, os, 0, 0);
+  c.lineCap = 'round'; c.lineJoin = 'round';
+  if (!noframe) {
+    c.strokeStyle = 'rgba(236,234,230,0.30)'; c.lineWidth = 1; c.beginPath();
+    c.moveTo(0.5, TH * 0.04); c.lineTo(0.5, TH - 0.5); c.lineTo(TW - 0.5, TH - 0.5); c.lineTo(TW - 0.5, TH * 0.04);
+    for (let t = 1; t < 20; t++) { const yy = Math.round(TH * t / 20) + 0.5; c.moveTo(0, yy); c.lineTo(t % 5 === 0 ? 13 : 6, yy); }
+    c.stroke();
+  }
+  for (const s of shades) {
+    if (s.a < 0.01) continue;
+    const x = s.r[0] * TW, y = s.r[1] * TH, w = (s.r[2] - s.r[0]) * TW, h = (s.r[3] - s.r[1]) * TH;
+    c.save(); c.globalAlpha = s.a; c.beginPath(); c.rect(x, y, w, h); c.clip();
+    c.fillStyle = 'rgba(12,13,16,0.5)'; c.fillRect(x, y, w, h);
+    c.strokeStyle = 'rgba(220,201,163,0.2)'; c.lineWidth = 1; c.beginPath();
+    for (let k = -h; k < w; k += 11) { c.moveTo(x + k, y + h); c.lineTo(x + k + h, y); }
+    c.stroke(); c.restore();
+    c.save(); c.globalAlpha = s.a; c.strokeStyle = 'rgba(220,201,163,0.75)'; c.lineWidth = 1.25; c.setLineDash([2, 5]); c.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1); c.restore();
+  }
+  c.setLineDash([]);
+  const path = (list) => { c.beginPath(); for (const w of list) { c.moveTo(w.ax * sc, w.ay * sc); c.lineTo(w.bx * sc + (w.ax === w.bx && w.ay === w.by ? 0.01 : 0), w.by * sc); } };
+  const glass = walls.filter(w => w.f === '' || w.f === 'g'), seal = walls.filter(w => w.f === 'x'), pegs = walls.filter(w => w.f === 'p');
+  const lw = Math.max(2.6, 0.34 * sc);
+  if (glass.length) {
+    path(glass); c.strokeStyle = 'rgba(196,204,226,0.26)'; c.lineWidth = lw * 1.5; c.stroke();
+    c.strokeStyle = 'rgba(246,246,250,0.82)'; c.lineWidth = Math.max(1, lw * 0.3); c.stroke();
+  }
+  if (pegs.length) { path(pegs); c.strokeStyle = 'rgba(236,234,230,0.75)'; c.lineWidth = Math.max(3, 0.26 * sc); c.stroke(); }
+  if (seal.length) { path(seal); c.strokeStyle = 'rgb(220,201,163)'; c.lineWidth = lw * 1.25; c.stroke(); c.strokeStyle = 'rgba(255,246,222,0.7)'; c.lineWidth = Math.max(1, lw * 0.22); c.stroke(); }
+  for (const g of gates) {
+    const closed = g.tm ? active(g.tm) : g.closed; g.was = closed;
+    path([g]);
+    if (closed) { c.strokeStyle = 'rgb(220,201,163)'; c.lineWidth = lw * 1.25; c.stroke(); }
+    else { c.strokeStyle = 'rgba(220,201,163,0.7)'; c.lineWidth = 1.4; c.setLineDash([3, 5]); c.stroke(); c.setLineDash([]); }
+  }
+  for (const m of marks) {
+    c.strokeStyle = m.c === 's' ? 'rgba(220,201,163,0.8)' : 'rgba(236,234,230,0.55)'; c.lineWidth = 1.2; c.setLineDash(m.dash ? [2, 5] : []);
+    c.beginPath(); c.moveTo(m.l[0] * TW, m.l[1] * TH); c.lineTo(m.l[2] * TW, m.l[3] * TH); c.stroke(); c.setLineDash([]);
+    if (m.arrow) { const a = Math.atan2((m.l[3] - m.l[1]) * TH, (m.l[2] - m.l[0]) * TW), x = m.l[2] * TW, y = m.l[3] * TH; c.beginPath(); c.moveTo(x - 8 * Math.cos(a - 0.45), y - 8 * Math.sin(a - 0.45)); c.lineTo(x, y); c.lineTo(x - 8 * Math.cos(a + 0.45), y - 8 * Math.sin(a + 0.45)); c.stroke(); }
+  }
+  ovDirty = false;
+  if (gl) { gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, R.tOver); gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, ov); gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false); }
+}
+
+/* ---------- WebGL2 renderer ---------- */
+const R = {}; let fw = 2, fh = 2, KT = 7; const vb = new Float32Array(MAX * 5);
+const VS_TRI = `#version 300 es
+out vec2 vUV; void main(){ vec2 p = vec2(float((gl_VertexID<<1)&2), float(gl_VertexID&2)); vUV = p; gl_Position = vec4(p*2.-1., 0., 1.); }`;
+const VS_PT = `#version 300 es
+layout(location=0) in vec2 aP; layout(location=1) in vec3 aD; uniform vec2 uDom; uniform float uPS; out vec3 vD;
+void main(){ vec2 c = aP/uDom; gl_Position = vec4(c*2.-1., 0., 1.); gl_PointSize = uPS; vD = aD; }`;
+const FS_PT = `#version 300 es
+precision highp float; in vec3 vD; out vec4 o;
+void main(){ vec2 p = gl_PointCoord*2.-1.; float r2 = dot(p,p); if (r2 > 1.) discard; float w = 1.-r2; w *= w; o = vec4(w, w*vD.x, w*vD.y, w*vD.z); }`;
+const FS_BLUR = `#version 300 es
+precision highp float; in vec2 vUV; out vec4 o; uniform sampler2D uT; uniform vec2 uD;
+void main(){ o = texture(uT, vUV)*.375 + (texture(uT, vUV+uD)+texture(uT, vUV-uD))*.25 + (texture(uT, vUV+2.*uD)+texture(uT, vUV-2.*uD))*.0625; }`;
+const FS_FIN = `#version 300 es
+precision highp float; in vec2 vUV; out vec4 o;
+uniform sampler2D uF, uPlate, uOver;
+uniform vec2 uFS, uDom, uUp; uniform float uK, uPPT, uT, uReveal, uAsp;
+uniform vec4 uLens; uniform vec4 uSh[4]; uniform float uShA[4];
+float hash(vec2 p){ p = fract(p*vec2(123.34, 456.21)); p += dot(p, p+45.32); return fract(p.x*p.y); }
+float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f); return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
+float net(vec2 p, float t){
+  float m = 1.;
+  for (int i = 0; i < 3; i++) { float fi = float(i);
+    p += .6*vec2(sin(p.y*1.1 + t*(.55+.2*fi) + fi*1.7), cos(p.x*1.3 - t*(.45+.15*fi) + fi*2.3));
+    m = min(m, abs(sin(p.x*.9 + p.y*.62 + fi*1.9)));
+    p = mat2(.8,-.6,.6,.8)*p*1.22 + 2.7; }
+  return pow(1.-m, 16.);
+}
+void main(){
+  vec2 uv = vec2(vUV.x, 1.-vUV.y), tx = 1./uFS, unit = uK*tx;
+  vec2 lu = uv; float lin = 0., ring = 0.;
+  if (uLens.w > 0.) { vec2 dl = (uv-uLens.xy)*vec2(uAsp,1.); float r = length(dl)/uLens.z;
+    lin = (1.-smoothstep(.9,1.,r))*uLens.w; ring = (1.-smoothstep(.0,.05,abs(r-1.)))*uLens.w;
+    lu = mix(uv, uLens.xy + (uv-uLens.xy)*.7, lin); }
+  vec4 po = texture(uPlate, lu)*(.62+2.2*lin);
+  vec4 f = texture(uF, uv); float d = f.r, inv = 1./max(d, 1e-3);
+  vec2 dye = clamp(f.gb*inv, 0., 1.); float spd = f.a*inv;
+  float gx = texture(uF, uv+vec2(tx.x,0.)).r - texture(uF, uv-vec2(tx.x,0.)).r;
+  float gy = texture(uF, uv+vec2(0.,tx.y)).r - texture(uF, uv-vec2(0.,tx.y)).r;
+  vec2 g = vec2(gx, gy)*.5; float gl = length(g)+1e-4;
+  float a = clamp((d-.8)/gl*uPPT + .5, 0., 1.);
+  a *= smoothstep(0., .035, uv.y - (1.-uReveal*1.08) + .012*sin(uv.x*26.+uT*5.));
+  vec4 outc = po;
+  if (a > 0.) {
+    float s = clamp((d-.8)/2.1, 0., 1.), e = 1.-s;
+    vec2 n2 = -g*(uK/5.)*(2.*e/2.1)*1.75;
+    vec3 Nn = normalize(vec3(n2, 1.));
+    vec2 nd = n2/(length(n2)+1e-4); float tf = dot(nd, uUp);
+    float band = smoothstep(.0, .85, e);
+    float dA = textureLod(uF, uv + uUp*unit*1.5, 2.).r, dB = textureLod(uF, uv + uUp*unit*4.5, 3.5).r, dC = textureLod(uF, uv + uUp*unit*11., 5.).r;
+    float depth = (smoothstep(.5,2.6,dA) + smoothstep(.5,2.6,dB) + smoothstep(.4,2.4,dC))/3.;
+    vec3 sh = mix(mix(vec3(.74,.82,.98), vec3(.74,.66,1.), dye.x), vec3(.98,.87,.66), dye.y);
+    vec3 dp = mix(mix(vec3(.10,.14,.27), vec3(.16,.11,.42), dye.x), vec3(.33,.24,.11), dye.y);
+    vec3 col = mix(sh*.66, dp, smoothstep(0., 1., depth)) + sh*.2*exp(-depth*7.);
+    vec2 cp = uv*uDom*.5;
+    float ca = net(cp + vec2(uT*.05, 0.), uT*.7) + .6*net(cp*1.7 + 9.1, -uT*.5);
+    col += sh*ca*(.03 + .2*smoothstep(.02,.3,depth)*(1.-.6*depth));
+    float ray = .5+.5*sin((uv.x*uDom.x*.33 - uv.y*uDom.y*.12) + uT*.25 + 2.*vn(uv*uDom*.11 + uT*.03));
+    col += sh*.07*ray*(1.-depth);
+    vec4 pl = texture(uPlate, lu + Nn.xy*unit*1.5);
+    col += pl.rgb*mix(sh, vec3(1.), .5)*(2.3 + 2.4*lin)*(1.-.5*depth);
+    col += vec3(.93,.96,1.)*band*pow(max(tf,0.), 2.)*.5;
+    col += vec3(1.)*(1.-smoothstep(.0,.3,s))*max(tf,0.)*.5;
+    col *= 1.-.42*band*max(-tf, 0.);
+    col += sh*.22*band*(1.-abs(tf));
+    vec3 L = normalize(vec3(uUp*.75 + vec2(uUp.y, -uUp.x)*.42, .62)), Hh = normalize(L + vec3(0.,0.,1.));
+    float nh = max(dot(Nn, Hh), 0.);
+    col += vec3(1.)*(pow(nh, 110.)*1.25 + pow(nh, 22.)*.12*band);
+    float fo = smoothstep(.07,.21,spd)*(.3+.7*band)*smoothstep(.3,.72, vn(uv*uDom*2.4 + uT*vec2(.4,1.1)) + .4*band);
+    col = mix(col, vec3(.95,.96,1.), fo*.9);
+    float shd = 0.;
+    for (int i = 0; i < 4; i++) { vec4 r = uSh[i]; vec2 qq = step(r.xy, uv)*step(uv, r.zw); shd = max(shd, qq.x*qq.y*uShA[i]); }
+    col = mix(col, vec3(.075,.08,.095) + .1*band*max(tf,0.), shd*.94);
+    col = mix(col, col*1.1 + pl.rgb*1.2, lin*.5);
+    float wa = a*.985;
+    outc = vec4(col*wa, wa) + po*(1.-wa);
+  }
+  outc += vec4(.86,.82,1.,1.)*ring*.75*(1.-outc.a*.3);
+  vec4 ovc = texture(uOver, uv);
+  o = ovc + outc*(1.-ovc.a);
+}`;
+function prog(vs, fs) {
+  const p = gl.createProgram();
+  for (const [t, src] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) { const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); gl.attachShader(p, s); }
+  gl.linkProgram(p); if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  const u = {}; const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+  for (let i = 0; i < n; i++) { const nm = gl.getActiveUniform(p, i).name.replace('[0]', ''); u[nm] = gl.getUniformLocation(p, nm); }
+  return { p, u };
+}
+function tex(w, h, fmt, mip) {
+  const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+  if (fmt === 'f') gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+  else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, mip ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  return t;
+}
+function initGL() {
+  try {
+    gl = cv.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, stencil: false, powerPreference: 'high-performance' });
+    if (!gl) return false;
+    if (!gl.getExtension('EXT_color_buffer_float') && !gl.getExtension('EXT_color_buffer_half_float')) { gl = null; return false; }
+    R.pS = prog(VS_PT, FS_PT); R.pB = prog(VS_TRI, FS_BLUR); R.pF = prog(VS_TRI, FS_FIN);
+    R.vao = gl.createVertexArray(); gl.bindVertexArray(R.vao);
+    R.vbo = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, R.vbo); gl.bufferData(gl.ARRAY_BUFFER, vb.byteLength, gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 20, 0);
+    gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 20, 8);
+    R.vaoE = gl.createVertexArray(); gl.bindVertexArray(null);
+    R.tPlate = tex(1, 1, 'b'); R.tOver = tex(1, 1, 'b'); R.fbo = []; R.ft = []; R.fsz = '';
+    return true;
+  } catch (err) { gl = null; return false; }
+}
+function setupRender() {
+  os = Math.min(2, Math.max(1, rs)); ow = Math.max(2, Math.round(TW * os)); oh = Math.max(2, Math.round(TH * os));
+  if (!ov || ov.width !== ow || ov.height !== oh) { ov = mk(ow, oh); octx = ov.getContext('2d'); }
+  if (gl) {
+    KT = 7; fw = Math.max(8, Math.ceil(W * KT)); fh = Math.max(8, Math.ceil(H * KT));
+    if (R.fsz !== fw + 'x' + fh) {
+      R.ft.forEach(t => gl.deleteTexture(t)); R.fbo.forEach(f => gl.deleteFramebuffer(f)); R.ft = []; R.fbo = [];
+      for (let k = 0; k < 3; k++) { const t = tex(fw, fh, 'f', k === 2), fb = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0); R.ft.push(t); R.fbo.push(fb); }
+      if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) { gl = null; mode = ''; startCPU(); return; }
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null); R.fsz = fw + 'x' + fh;
+    }
+  } else setupCPU();
+}
+function uploadPlate() {
+  plateDirty = false; if (!gl) return;
+  gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, R.tPlate);
+  if (plate) { gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, !(typeof ImageBitmap !== 'undefined' && plate instanceof ImageBitmap)); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, plate); gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false); }
+  else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
+}
+function drawGL() {
+  if (gl.isContextLost()) return;
+  const n = N;
+  for (let i = 0, o = 0; i < n; i++, o += 5) { vb[o] = px[i]; vb[o + 1] = py[i]; vb[o + 2] = d1[i]; vb[o + 3] = d2[i]; vb[o + 4] = Math.sqrt(vx[i] * vx[i] + vy[i] * vy[i]); }
+  gl.bindBuffer(gl.ARRAY_BUFFER, R.vbo); gl.bufferSubData(gl.ARRAY_BUFFER, 0, vb, 0, Math.max(5, n * 5));
+  gl.bindFramebuffer(gl.FRAMEBUFFER, R.fbo[0]); gl.viewport(0, 0, fw, fh); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);
+  gl.useProgram(R.pS.p); gl.uniform2f(R.pS.u.uDom, W, H); gl.uniform1f(R.pS.u.uPS, 2 * 0.92 * KT);
+  gl.bindVertexArray(R.vao); if (n) gl.drawArrays(gl.POINTS, 0, n);
+  gl.disable(gl.BLEND); gl.bindVertexArray(R.vaoE);
+  gl.useProgram(R.pB.p); gl.activeTexture(gl.TEXTURE0); gl.uniform1i(R.pB.u.uT, 0);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, R.fbo[1]); gl.bindTexture(gl.TEXTURE_2D, R.ft[0]); gl.uniform2f(R.pB.u.uD, 1.3 / fw, 0); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, R.fbo[2]); gl.bindTexture(gl.TEXTURE_2D, R.ft[1]); gl.uniform2f(R.pB.u.uD, 0, 1.3 / fh); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.bindTexture(gl.TEXTURE_2D, R.ft[2]); gl.generateMipmap(gl.TEXTURE_2D);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, cv.width, cv.height); gl.clear(gl.COLOR_BUFFER_BIT);
+  const x0 = Math.round(TX * rs), y0 = Math.round((VH - TY - TH) * rs), w = Math.round(TW * rs), h = Math.round(TH * rs);
+  gl.viewport(x0, y0, w, h);
+  const P = R.pF, u = P.u; gl.useProgram(P.p);
+  gl.uniform1i(u.uF, 0); gl.uniform1i(u.uPlate, 1); gl.uniform1i(u.uOver, 2);
+  gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, R.tPlate); gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, R.tOver); gl.activeTexture(gl.TEXTURE0);
+  gl.uniform2f(u.uFS, fw, fh); gl.uniform2f(u.uDom, W, H); gl.uniform2f(u.uUp, -Math.sin(ga), -Math.cos(ga));
+  gl.uniform1f(u.uK, KT); gl.uniform1f(u.uPPT, w / fw); gl.uniform1f(u.uT, clock); gl.uniform1f(u.uReveal, reveal); gl.uniform1f(u.uAsp, TW / TH);
+  gl.uniform4f(u.uLens, lens.x, lens.y, 0.105 * Math.min(1, TW / TH) + 0.02, lens.a);
+  const sr = new Float32Array(16), sa = new Float32Array(4);
+  shades.slice(0, 4).forEach((s, k) => { sr.set(s.r, k * 4); sa[k] = s.a; });
+  gl.uniform4fv(u.uSh, sr); gl.uniform1fv(u.uShA, sa);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+
+/* ---------- 2D fallback renderer (no WebGL2): simpler shading, same simulation ---------- */
+let F = null, A1 = null, A2 = null, TMP = null, cfw = 0, cfh = 0, ccs = 3, cimg = null, ccv = null, cctx = null, coW = 0, coH = 0, cos_ = 1;
+function startCPU() { if (!c2) { try { c2 = cv.getContext('2d'); } catch (e) { c2 = null; } } mode = c2 ? 'cpu' : 'none'; if (c2) setupCPU(); S.postMessage({ type: 'ready', mode }); }
+function setupCPU() {
+  ccs = Math.max(1.5, sc / 5); cfw = Math.ceil(TW / ccs) + 8; cfh = Math.ceil(TH / ccs) + 8;
+  const n = cfw * cfh; if (!F || F.length < n) { F = new Float32Array(n); A1 = new Float32Array(n); A2 = new Float32Array(n); TMP = new Float32Array(n); }
+  cos_ = Math.max(1, Math.sqrt(TW * TH / 240000)); coW = Math.ceil(TW / cos_); coH = Math.ceil(TH / cos_);
+  if (!ccv || ccv.width !== coW || ccv.height !== coH) { ccv = mk(coW, coH); cctx = ccv.getContext('2d'); cimg = cctx.createImageData(coW, coH); }
+}
+function drawCPU() {
+  if (!c2) return;
+  c2.setTransform(rs, 0, 0, rs, 0, 0); c2.clearRect(0, 0, VW, VH);
+  const n = cfw * cfh; F.fill(0, 0, n); A1.fill(0, 0, n); A2.fill(0, 0, n);
+  const k = sc / ccs, rad = 0.9 * k, r2 = rad * rad;
+  for (let i = 0; i < N; i++) {
+    const fx = px[i] * k + 4, fy = py[i] * k + 4;
+    const x0 = Math.max(0, Math.ceil(fx - rad)), x1 = Math.min(cfw - 1, (fx + rad) | 0), y0 = Math.max(0, Math.ceil(fy - rad)), y1 = Math.min(cfh - 1, (fy + rad) | 0);
+    for (let y = y0; y <= y1; y++) { const dy = y - fy, row = y * cfw; for (let x = x0; x <= x1; x++) { const dx = x - fx, dd = dx * dx + dy * dy; if (dd >= r2) continue; let w = 1 - dd / r2; w *= w; const o = row + x; F[o] += w; A1[o] += w * d1[i]; A2[o] += w * d2[i]; } }
+  }
+  for (let y = 0; y < cfh; y++) for (let x = 1, o = y * cfw + 1; x < cfw - 1; x++, o++) TMP[o] = (F[o - 1] + 2 * F[o] + F[o + 1]) * 0.25;
+  for (let y = 1; y < cfh - 1; y++) for (let x = 1, o = y * cfw + 1; x < cfw - 1; x++, o++) F[o] = (TMP[o - cfw] + 2 * TMP[o] + TMP[o + cfw]) * 0.25;
+  const Dd = cimg.data, kk = cos_ / ccs, ux = -Math.sin(ga), uy = -Math.cos(ga), cut = (1 - reveal * 1.08) * coH;
+  for (let y = 0; y < coH; y++) {
+    const fy = (y + 0.5) * kk + 4, yy = fy | 0, ty = fy - yy, r0 = yy * cfw;
+    for (let x = 0; x < coW; x++) {
+      const p = (y * coW + x) * 4, fx = (x + 0.5) * kk + 4, xx = fx | 0, tx = fx - xx, a00 = r0 + xx;
+      const f00 = F[a00], f01 = F[a00 + 1], f10 = F[a00 + cfw], f11 = F[a00 + cfw + 1];
+      if ((f00 < 0.5 && f01 < 0.5 && f10 < 0.5 && f11 < 0.5) || y < cut) { Dd[p + 3] = 0; continue; }
+      const f = f00 * (1 - tx) * (1 - ty) + f01 * tx * (1 - ty) + f10 * (1 - tx) * ty + f11 * tx * ty;
+      const gx = (f01 - f00) * (1 - ty) + (f11 - f10) * ty, gy = (f10 - f00) * (1 - tx) + (f11 - f01) * tx, gl2 = Math.sqrt(gx * gx + gy * gy) + 1e-4;
+      let a = (f - 0.8) / (gl2 * kk) + 0.5; if (a <= 0) { Dd[p + 3] = 0; continue; } if (a > 1) a = 1;
+      const e1 = A1[a00] / (f00 + 1e-3), e2 = A2[a00] / (f00 + 1e-3);
+      let s = (f - 0.8) / 2.1; s = s < 0 ? 0 : s > 1 ? 1 : s; const e = 1 - s, tf = -(gx * ux + gy * uy) / gl2;
+      const up = F[Math.max(0, a00 - Math.round(5 * k) * cfw)], dep = up > 2.2 ? 1 : up / 2.2;
+      let cr = 0.74 + (0.98 - 0.74) * e2, cg = 0.82 + (0.66 - 0.82) * e1 + (0.87 - 0.75) * e2, cb = 0.98 - 0.32 * e2;
+      const lum = (0.82 - 0.36 * dep) + e * (tf > 0 ? 0.45 * tf : 0.25 * tf);
+      cr *= lum; cg *= lum; cb = cb * lum + 0.1 * dep * e1;
+      Dd[p] = cr * 255; Dd[p + 1] = cg * 255; Dd[p + 2] = cb * 255; Dd[p + 3] = a * 250;
+    }
+  }
+  cctx.putImageData(cimg, 0, 0);
+  c2.save(); c2.beginPath(); c2.rect(TX, TY, TW, TH); c2.clip();
+  if (plate) c2.drawImage(plate, TX, TY, TW, TH);
+  c2.imageSmoothingEnabled = true; c2.drawImage(ccv, 0, 0, coW, coH, TX, TY, coW * cos_, coH * cos_);
+  c2.drawImage(ov, TX, TY, TW, TH); c2.restore();
+}
+
+/* ---------- loop ---------- */
+function sizeCanvas() { const w = Math.max(2, Math.round(VW * rs)), h = Math.max(2, Math.round(VH * rs)); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; } }
+function frame(dt) {
+  clock += dt;
+  if (phase === 'out') { reveal -= dt / 0.17; if (reveal <= 0) { reveal = 0; const p = pending; pending = null; phase = 'in'; apply(p.def, p.rect); if (p.plate !== undefined) { plate = p.plate; plateDirty = true; } } }
+  else if (phase === 'in') { reveal += dt / 0.62 * (1.25 - reveal * 0.6); if (reveal >= 1) { reveal = 1; phase = ''; } }
+  for (const s of shades) { if (Math.abs(s.v - s.a) > 0.004) { s.a += (s.v - s.a) * Math.min(1, dt * 9); ovDirty = true; } else if (s.a !== s.v) { s.a = s.v; ovDirty = true; } }
+  for (const g of gates) { const c = g.tm ? active(g.tm) : g.closed; if (c !== g.was) ovDirty = true; }
+  if (lens.auto && ptr.seen <= 0) { lens.x = 0.5 + 0.3 * Math.sin(clock * 0.31); lens.y = 0.74 + 0.08 * Math.sin(clock * 0.47 + 1); lens.a += (1 - lens.a) * 0.06; }
+  else if (ptr.seen > 0) { ptr.seen -= dt; lens.a += ((def && def.nolens ? 0 : 1) - lens.a) * 0.2; }
+  else lens.a += (0 - lens.a) * 0.08;
+  if (lens.a < 0.004) lens.a = 0;
+}
+function render() { if (plateDirty) uploadPlate(); if (ovDirty) drawOverlay(); if (mode === 'gl') drawGL(); else if (mode === 'cpu') drawCPU(); }
+function loop(now) {
+  if (!running) return;
+  raf(loop);
+  if (paused || !def) { lastNow = now; return; }
+  const dt = Math.min(0.05, Math.max(0.001, (now - lastNow) / 1000 || 0.016)); lastNow = now;
+  if (reduced && wake <= 0 && !phase) return;
+  if (wake > 0) wake--;
+  const t0 = performance.now();
+  frame(dt);
+  if (!reduced || wake > 0) tick();
+  simMs += (performance.now() - t0 - simMs) * 0.05;
+  render(); frames++;
+  if (T % 6 === 0) live();
+  if (now - lastStat > 1000) {
+    const fps = frames * 1000 / (now - lastStat || 1); frames = 0; lastStat = now;
+    if (fps < 46 && !reduced) { if (++slow >= 2 && rs > Math.max(0.6, dpr * 0.5)) { rs = Math.max(0.6, rs * 0.8); sizeCanvas(); setupRender(); ovDirty = true; slow = 0; } } else slow = 0;
+    S.postMessage({ type: 'stat', fps, n: N, ms: simMs, rs, mode });
+  }
+}
+S.onmessage = (e) => {
+  const m = e.data;
+  if (m.type === 'init') {
+    cv = m.canvas || cv; reduced = !!m.reduced; forceCPU = !!m.cpu; q = m.q || 1;
+    VW = m.w; VH = m.h; dpr = m.dpr; rs = dpr; sizeCanvas();
+    if (!forceCPU && initGL()) { mode = 'gl'; if (cv.addEventListener) { cv.addEventListener('webglcontextlost', ev => ev.preventDefault()); cv.addEventListener('webglcontextrestored', () => { if (initGL()) { setupRender(); plateDirty = true; ovDirty = true; } }); } S.postMessage({ type: 'ready', mode }); }
+    else startCPU();
+  } else if (m.type === 'resize') {
+    VW = m.w; VH = m.h; dpr = m.dpr; rs = Math.min(rs, dpr); if (rs < dpr * 0.5) rs = dpr * 0.5; sizeCanvas();
+    if (m.def) { phase = ''; pending = null; reveal = 1; apply(m.def, m.rect); if (m.plate !== undefined) { plate = m.plate; plateDirty = true; } }
+    wake = 30; if (reduced) render();
+  } else if (m.type === 'scene') {
+    if (simMs > 10 && q > 0.55) q *= 0.85;
+    if (m.instant || !def || reduced) { phase = ''; pending = null; reveal = 1; apply(m.def, m.rect); if (m.plate !== undefined) { plate = m.plate; plateDirty = true; } }
+    else { pending = m; phase = 'out'; }
+    if (!running) { running = true; lastStat = lastNow = performance.now(); raf(loop); }
+    if (reduced) { render(); live(); wake = 2; }
+  } else if (m.type === 'plate') { plate = m.plate; plateDirty = true; wake = Math.max(wake, 2); }
+  else if (m.type === 'ptr') {
+    ptr.x = (m.x - TX) / sc; ptr.y = (m.y - TY) / sc; ptr.dx = Math.max(-0.6, Math.min(0.6, m.dx / sc)); ptr.dy = Math.max(-0.6, Math.min(0.6, m.dy / sc)); ptr.t = 10; ptr.stir = m.stir !== false; ptr.seen = 1.4;
+    lens.x = (m.x - TX) / TW; lens.y = (m.y - TY) / TH; wake = 90;
+  } else if (m.type === 'tilt') { ga = m.a; wake = 120; }
+  else if (m.type === 'gate') { if (gates[m.i]) { gates[m.i].closed = m.closed; ovDirty = true; wake = 240; } }
+  else if (m.type === 'shade') { if (shades[m.i]) { shades[m.i].v = m.v; wake = 60; } }
+  else if (m.type === 'kick') { kick = 46; wake = 200; }
+  else if (m.type === 'pour') { pours.push({ x: m.u * W, y: m.v * H, sp: (m.sp || 0.01) * W, left: Math.round(m.count * q), d: m.d || [0, 0] }); wake = 300; }
+  else if (m.type === 'clear') { const r = m.r; for (let i = N - 1; i >= 0; i--) if (px[i] >= r[0] * W && px[i] <= r[2] * W && py[i] >= r[1] * H && py[i] <= r[3] * H) kill(i); wake = 30; }
+  else if (m.type === 'pause') paused = !!m.v;
+};
+</script>
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const slides = $$('.slide'), ticks = $('#ticks'), tip = $('#tip'), fillEl = $('#fill');
+const count = $('#count'), prevB = $('#prev'), nextB = $('#next'), deck = $('#deck');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const usd = v => '$' + Math.round(v).toLocaleString('en-US');
+
+/* ---------- scenes: geometry in tank-normalised units (u across, v down); A = tank width / height ---------- */
+const ves = (u0, v0, u1, v1, lid) => { const w = [[u0, v0, u0, v1], [u1, v0, u1, v1], [u0, v1, u1, v1]]; if (lid) w.push([u0, v0, u1, v0, 'x']); return w; };
+function flask(A, lvl, dye) {
+  const kx = A >= 1 ? 1 / A : 1, ky = A >= 1 ? 1 : A, cu = .5, cv = .5 + .06 * ky, Rm = .37, hw = .1;
+  const P = (dx, dy) => [cu + dx * kx, cv + dy * ky], seg = (a, b, f) => f ? [a[0], a[1], b[0], b[1], f] : [a[0], a[1], b[0], b[1]];
+  const phi = Math.asin(hw / Rm), n = 36, w = [], pt = t => P(Rm * Math.sin(t), -Rm * Math.cos(t));
+  for (let k = 0; k < n; k++) w.push(seg(pt(phi + (2 * Math.PI - 2 * phi) * k / n), pt(phi + (2 * Math.PI - 2 * phi) * (k + 1) / n)));
+  const ny = -Rm * Math.cos(phi), top = -(Rm + .13);
+  w.push(seg(P(hw, ny), P(hw, top)), seg(P(-hw, ny), P(-hw, top)), seg(P(-hw - .03, top), P(hw + .03, top), 'x'), seg(P(-hw + .012, top + .028), P(hw - .012, top + .028), 'x'));
+  return { walls: w, fills: [{ r: [cu - Rm * kx, cv - Rm * ky, cu + Rm * kx, cv + Rm * ky], circ: [cu, cv, Rm], lvl, d: dye }], clip: [cu, cv, Rm], hard: [cu, cv, Rm, hw, Rm + .13 - .028], g: 'tilt', noframe: 1 };
+}
+const SC = {};
+SC.cover = A => Object.assign(flask(A, .56, [.72, 0]), { rock: .075, nolens: 1 });
+SC.what = A => {
+  const xs = [.03, .283, .536, .79], w = .2, t = .26, b = .94, lv = [.56, .2, .36, .8], dy = [[.12, 0], [0, 1], [0, .85], [1, 0]];
+  return { walls: [].concat(...xs.map(x => ves(x, t, x + w, b))), fills: xs.map((x, i) => ({ r: [x, t, x + w, b], lvl: lv[i], d: dy[i] })), regs: xs.map(x => [x, 0, x + w, b]),
+    drips: [{ u: xs[0] + w / 2, v: t + .05, p: 170, n: 12, r: [xs[0], t, xs[0] + w, b] }, { u: xs[3] + w / 2, v: t + .05, p: 230, ph: 90, n: 12, r: [xs[3], t, xs[3] + w, b] }],
+    live: [['bank', 4280], ['card', 1150], ['loan', 8900], ['investment', 23400]].map((a, i) => ({ reg: i, name: a[0], amt: a[1] })), note: 'Illustration, invented balances' };
+};
+SC.sees = A => ({ walls: [...ves(.04, .22, .56, .94), ...ves(.67, .22, .95, .94)],
+  fills: [{ r: [.04, .22, .56, .94], lvl: .62, d: [.55, 0] }, { r: [.67, .22, .95, .94], lvl: .62, d: [.2, 0] }], shades: [{ r: [.62, .03, 1, .985], v: 1 }],
+  drips: [{ u: .3, v: .28, p: 180, n: 14, r: [.04, .22, .56, .94] }],
+  labels: [[.3, .13, 'shared accounts', 'big'], [.81, .13, 'stays dark', 'big'], [.81, .3, 'bank password', 'ghost'], [.81, .44, 'holdings & trades', 'ghost'], [.81, .58, 'rates & loan terms', 'ghost'], [.81, .72, 'unshared accounts', 'ghost']],
+  note: 'Illustration' });
+SC.readonly = A => Object.assign(flask(A, .5, [.6, 0]), { manual: 1 });
+SC.path = A => ({ walls: [...ves(.04, .13, .32, .5, 1), [.355, .5, .355, .57], [.355, .57, .72, .64], [.72, .64, .72, .6], [.56, .82, .56, .95], [.56, .95, .96, .95], [.96, .95, .96, .82]],
+  fills: [{ r: [.04, .13, .32, .5], lvl: .8, d: [.1, 0] }], regs: [[.04, .1, .32, .5]],
+  src: [{ u: .4, v: .4, sp: .008, rate: 2.4, d: [1, 0], vy: .05 }], drains: [{ r: [.86, .9, .96, .95], rb: 3 }, { r: [0, .975, .55, 1] }], extra: 620, pre: 330,
+  marks: [{ l: [.33, .37, .39, .37], dash: 1, arrow: 1 }],
+  labels: [[.54, .5, 'Plaid', 'big'], [.76, .76, 'Claude', 'big'], [.55, .31, 'a read-only copy of the figures', '']],
+  live: [{ reg: 0, name: 'your bank, untouched', amt: 4280 }], note: 'Illustration: the money stays in the bank' });
+SC.stairs = A => {
+  const st = k => [k * .125 + .012, .17 + k * .108], w = [], regs = [], labels = [];
+  for (let k = 0; k < 7; k++) { const [x, y] = st(k); w.push([x, y - .05, x, y], [x, y, x + .19, y + .012], [x + .19, y + .012, x + .19, y - .022]); regs.push([x, y - .06, x + .19, y + .012]); labels.push([x + .095, y + .045, String(k + 1), 'num']); }
+  return { walls: w, regs, labels, src: [{ u: .08, v: .07, sp: .012, rate: 1.5, d: [.8, 0] }], drains: [{ r: [0, .965, 1, 1], rb: 3 }], n: .15, cycle: 900, cycleWipe: false, pre: 20, sync: 1,
+    note: 'Illustration: the steps light up as the water reaches them' };
+};
+SC.more = A => {
+  const x = k => .02 + k * .06, w = []; for (let k = 0; k <= 16; k++) w.push([x(k), .3, x(k), 1]);
+  return { walls: w, fills: [.5, .82, .36].map((l, k) => ({ r: [x(k), .3, x(k + 1), 1], lvl: l, d: [[.3, 0], [1, 0], [0, 0]][k] })),
+    labels: [[.5, .2, '16 places, one per bank', '']], note: 'Illustration' };
+};
+SC.unlink = A => ({ walls: [...ves(.05, .36, .31, .9), ...ves(.37, .36, .63, .9), [.5, .36, .5, .9], ...ves(.69, .36, .95, .9)],
+  fills: [{ r: [.05, .36, .31, .9], lvl: .55, d: [.3, 0] }, { r: [.37, .36, .5, .9], lvl: .74, d: [.85, 0] }, { r: [.5, .36, .63, .9], lvl: .4, d: [.85, 0] }, { r: [.69, .36, .95, .9], lvl: .46, d: [0, 0] }],
+  shades: [{ r: [.02, .29, .34, .93] }, { r: [.355, .29, .645, .93] }, { r: [.66, .29, .98, .93] }],
+  labels: [[.18, .965, 'bank A', ''], [.5, .965, 'bank B · two accounts', ''], [.82, .965, 'bank C', ''], [.5, .05, 'your dashboard', 'big'],
+    [.14, .16, 'spending', 'wid'], [.38, .16, 'cash flow', 'wid'], [.62, .16, 'subscriptions', 'wid'], [.86, .16, 'upcoming bills', 'wid']], note: 'Illustration' });
+SC.jars = A => ({ walls: [...ves(.07, .3, .45, .93, 1), ...ves(.55, .3, .93, .93)], gates: [{ s: [.55, .3, .93, .3], tm: [7, .45, 1] }],
+  fills: [{ r: [.07, .3, .45, .93], lvl: .62, d: [1, 0] }, { r: [.55, .3, .93, .93], lvl: .62, d: [0, 0] }],
+  drips: [{ u: .26, v: .37, p: 190, n: 12, r: [.07, .3, .45, .93] }, { u: .74, v: .37, p: 240, ph: 100, n: 12, r: [.55, .3, .93, .93] }],
+  labels: [[.26, .1, 'Personal Finance hub', 'big'], [.26, .19, 'never used for training', ''], [.74, .1, 'other chats', 'big'], [.74, .19, 'your privacy settings decide', '']], note: 'Illustration' });
+SC.taps = A => { const h = .022, c = [.27, .6, .93], lc = [.135, .47, .8], y = .4, w = [[0, y, c[0] - h, y], [c[0] + h, y, c[1] - h, y], [c[1] + h, y, c[2] - h, y], [c[2] + h, y, 1, y], [.333, y, .333, 1], [.666, y, .666, 1]];
+  c.forEach(u => w.push([u - h, y, u - h, y + .06], [u + h, y, u + h, y + .06])); w.push([c[0] - h, y + .06, c[0] + h, y + .06, 'x']);
+  return { walls: w, gates: [{ s: [c[1] - h, y + .06, c[1] + h, y + .06] }], fills: [{ r: [0, .08, 1, y], lvl: .66, d: [.9, 0] }],
+    src: [{ u: .5, v: .05, sp: .46, rate: 5, d: [.9, 0] }], drains: [{ r: [0, .97, 1, 1] }], extra: 40,
+    labels: [[lc[0], .64, 'Blocked', 'big'], [lc[1], .64, 'Needs approval', 'big'], [lc[2], .64, 'Always allow', 'big'], [lc[0], .72, 'nothing is read', 'sub'], [lc[1], .72, 'asks before each read', 'sub'], [lc[2], .72, 'reads without asking', 'sub']],
+    note: 'Illustration: what flows here is reads, not money' }; };
+SC.plans = A => { const tw = 1 / 6, cap = [0, 4, 5], w = [], fills = [], labels = [];
+  ['Free', 'Pro', 'Max', 'Ultra', 'Team', 'Enterprise'].forEach((t, i) => { const a = i * tw + .024, b = (i + 1) * tw - .024; w.push(...ves(a, .34, b, .95, cap.includes(i)));
+    if (!cap.includes(i)) fills.push({ r: [a, .34, b, .95], lvl: [0, .6, .7, .8][i], d: [.9, 0] }); labels.push([(a + b) / 2, .26, t, cap.includes(i) ? 'ghost' : 'big']); });
+  labels.push([.5, .1, 'United States · beta', '']);
+  return { walls: w, fills, labels, drips: [1, 2, 3].map((i, k) => ({ u: i * tw + tw / 2, v: .42, p: 200 + k * 37, ph: k * 60, n: 9, r: [i * tw, .34, (i + 1) * tw, .95] })) }; };
+SC.lag = A => ({ walls: Array.from({ length: 5 }, (_, k) => k % 2 ? [1, .16 + k * .16, .14, .22 + k * .16] : [0, .16 + k * .16, .86, .22 + k * .16]),
+  src: [{ u: .05, v: .06, sp: .02, vx: .03, rate: 3.2, d: [.15, 0], tm: [9, .14, 1] }, { u: .05, v: .06, sp: .02, vx: .03, rate: 3.2, d: [0, 1], tm: [9, 0, .14] }],
+  drains: [{ r: [.92, .955, 1, 1], rb: 4 }], n: .2, pre: 540,
+  labels: [[.56, .075, 'your bank, right now', 'big'], [.4, .945, 'what Claude sees: maybe a day or two later', '']], note: 'Illustration: the sand-coloured slug is today’s spending, still on its way' });
+SC.lens = A => ({ walls: ves(.05, .4, .95, .93), fills: [{ r: [.05, .4, .95, .93], lvl: .78, d: [.35, 0] }], lens: 1, dense: 1, drips: [{ u: .5, v: .42, p: 210, n: 16 }], note: 'Illustration, invented figures' });
+SC.bins = A => { const cats = [['groceries', .2], ['dining', .12], ['transport', .09], ['bills', .3], ['shopping', .17], ['other', .12]], x = i => .015 + i * .165, w = .145;
+  return { walls: [].concat(...cats.map((c, i) => ves(x(i), .3, x(i) + w, .95))), fills: cats.map((c, i) => ({ r: [x(i), .3, x(i) + w, .95], lvl: c[1] / .3 * .86, d: [i % 2 ? .95 : .35, i === 3 ? 0 : 0] })),
+    regs: cats.map((c, i) => [x(i), 0, x(i) + w, .95]), live: cats.map((c, i) => ({ reg: i, name: c[0], amt: c[1] * 4200 })),
+    drips: [0, 3, 4].map((i, k) => ({ u: x(i) + w / 2, v: .37, p: 150 + k * 41, ph: k * 50, n: 8, r: [x(i), .3, x(i) + w, .95] })), note: 'Illustration, invented numbers' }; };
+SC.drips = A => { const us = [.12, .31, .5, .69, .88];
+  return { walls: us.map(u => [u, .13, u, .17]), fills: [{ r: [0, .78, 1, 1], lvl: 1, d: [.2, 0] }], zones: [{ r: [0, .8, 1, 1], d: [.2, 0] }],
+    drips: [{ u: us[0], v: .18, p: 46, n: 9, d: [.95, 0] }, { u: us[1], v: .18, p: 136, n: 20, d: [.95, 0] }, { u: us[2], v: .18, p: 136, ph: 50, n: 36, d: [0, 1] }, { u: us[3], v: .18, p: 430, ph: 330, n: 64, d: [.95, 0] }, { u: us[4], v: .18, p: 160, ph: 20, n: 16, d: [0, 1] }, { u: us[4], v: .18, p: 160, ph: 2, n: 16, d: [0, 1] }],
+    labels: [[us[0], .07, 'weekly', ''], [us[1], .07, 'monthly', ''], [us[2], .07, 'price went up', 'warn'], [us[3], .07, 'yearly', ''], [us[4], .07, 'charged twice?', 'warn']], note: 'Illustration: each nozzle is one recurring charge' }; };
+SC.debt = A => { const V = (a, b) => { const m = (a + b) / 2, h = .024; return [[a, .22, a, .66], [b, .22, b, .66], [a, .66, m - h, .66], [m + h, .66, b, .66]]; };
+  return { walls: [...V(.08, .44), ...V(.56, .92)], fills: [{ r: [.08, .22, .44, .66], lvl: .82, d: [0, .9] }, { r: [.56, .22, .92, .66], lvl: .82, d: [0, .9] }],
+    src: [{ u: .26, v: .24, sp: .05, rate: .8, d: [1, 0] }, { u: .74, v: .24, sp: .05, rate: .2, d: [1, 0] }], drains: [{ r: [0, .965, 1, 1] }], n: .52, cycle: 1140,
+    labels: [[.26, .12, 'card · 24.9% APR', 'big'], [.74, .12, 'car loan · 6.4% APR', 'big'], [.5, .76, 'the same payment out of each', '']],
+    note: 'Illustration, placeholder rates: interest drips back in at the top, faster on the card' }; };
+SC.networth = A => ({ walls: [...ves(.06, .18, .46, .94), ...ves(.54, .18, .94, .94)], fills: [{ r: [.06, .18, .46, .94], lvl: .8, d: [.5, 0] }, { r: [.54, .18, .94, .94], lvl: .3, d: [0, 1] }],
+  regs: [[.06, 0, .46, .94], [.54, 0, .94, .94]], live: [{ reg: 0, name: 'what you own', amt: 41200 }, { reg: 1, name: 'what you owe', amt: 15450 }], net: 1,
+  drips: [{ u: .26, v: .26, p: 200, n: 14, r: [.06, .18, .46, .94] }], note: 'Illustration, invented numbers' });
+SC.float = A => ({ g: 'zero', noframe: 1, nolens: 1, fills: [{ r: [.13, .13, .37, .37], d: [1, 0] }, { r: [.63, .13, .87, .37], d: [0, 1] }, { r: [.63, .63, .87, .87], d: [.5, 0] }, { r: [.13, .63, .37, .87], d: [.05, 0] }],
+  follow: ['Price', 'Which banks', 'Refresh schedule', 'Retention'], note: 'Illustration: open questions, still adrift' });
+SC.end = A => Object.assign(flask(A, .5, [.72, 0]), { spin: .16, nolens: 1 });
+
+/* ---------- deck furniture ---------- */
+let cur = -1, sim = null, canvas = $('#ink'), def = null, rect = { x: 0, y: 0, w: 1, h: 1 }, seq = 0, rot = null, t0 = 0;
+let cssA = 0, cssT = 0, sensA = 0, shake = 0, drag = null, down = null, liveEls = [], followEls = [], base = [], netEl = null, hook = null;
+slides.forEach((s, i) => {
+  $$('.copy > *', s).forEach((e, k) => e.style.setProperty('--i', Math.min(k, 7)));
+  const li = document.createElement('li'), b = document.createElement('button'), n = document.createElement('span');
+  b.type = 'button'; b.setAttribute('aria-label', 'Slide ' + (i + 1) + ': ' + s.dataset.title); n.textContent = i + 1; b.appendChild(n);
+  b.addEventListener('click', ev => { ev.stopPropagation(); go(i); });
+  b.addEventListener('pointerenter', ev => { if (ev.pointerType !== 'mouse') return; const r = b.getBoundingClientRect(); tip.textContent = (i + 1) + '  ' + s.dataset.title; tip.style.opacity = 1;
+    const vert = getComputedStyle(ticks).flexDirection !== 'row';
+    tip.style.left = (vert ? r.left - tip.offsetWidth - 10 : Math.max(8, Math.min(innerWidth - tip.offsetWidth - 8, r.left))) + 'px'; tip.style.top = (vert ? r.top + r.height / 2 - 13 : r.top - 32) + 'px'; });
+  b.addEventListener('pointerleave', () => tip.style.opacity = 0);
+  li.appendChild(b); ticks.appendChild(li);
+});
+const tickBtns = $$('button', ticks);
+const layout = () => matchMedia('(max-aspect-ratio: 5/6)').matches ? 'p' : matchMedia('(max-height: 520px)').matches ? 'l' : 'd';
+function fadeCheck(c) { c.classList.toggle('more', c.scrollHeight - c.clientHeight > 4); c.classList.toggle('end', c.scrollTop + c.clientHeight >= c.scrollHeight - 4); }
+function fit(s) {
+  const c = $('.copy', s), L = layout(), min = L === 'p' ? .86 : L === 'l' ? .9 : .8;
+  let k = L === 'd' ? 1.06 : 1;
+  for (;;) { c.style.setProperty('--k', k.toFixed(3)); if (c.scrollHeight <= c.clientHeight + 1 || k <= min) break; k -= .025; }
+  fadeCheck(c);
+}
+const fitAll = () => slides.forEach(fit);
+$$('.copy').forEach(c => c.addEventListener('scroll', () => fadeCheck(c), { passive: true }));
+function rectOf(i) { const r = $('.tank', slides[i]).getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; }
+const dims = () => ({ w: innerWidth, h: innerHeight, dpr: Math.min(2, devicePixelRatio || 1) });
+
+function makePlate(d, r, key) {
+  const s = Math.min(2, devicePixelRatio || 1, 1500 / Math.max(r.w, r.h));
+  const c = document.createElement('canvas'); c.width = Math.max(2, Math.round(r.w * s)); c.height = Math.max(2, Math.round(r.h * s));
+  const x = c.getContext('2d'); x.scale(s, s);
+  let seed = 7; for (const ch of key) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+  const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+  if (d.clip) { x.beginPath(); x.arc(d.clip[0] * r.w, d.clip[1] * r.h, d.clip[2] * Math.min(r.w, r.h), 0, 7); x.clip(); }
+  const row = Math.max(16, Math.min(r.w, r.h) / (d.dense ? 18 : 22));
+  x.font = (row * .56).toFixed(1) + 'px "Young Serif", Georgia, serif'; x.textBaseline = 'middle';
+  for (let y = row * .7; y < r.h; y += row) {
+    x.fillStyle = 'rgba(236,234,230,.045)'; x.fillRect(0, Math.round(y + row * .5), r.w, 1);
+    let cx = rnd() * row * 3 - row;
+    while (cx < r.w) {
+      const v = rnd() < .12 ? rnd() * 4000 + 500 : rnd() * 180 + 2, t = (rnd() < .22 ? '+' : '−') + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      x.fillStyle = 'rgba(236,234,230,' + (.075 + rnd() * .065).toFixed(3) + ')'; x.fillText(t, cx, y); cx += x.measureText(t).width + row * (1.4 + rnd() * 3);
+    }
+  }
+  if (sim && sim.mode === 'main') return Promise.resolve(c);
+  return window.createImageBitmap ? createImageBitmap(c).catch(() => null) : Promise.resolve(null);
+}
+function buildTank(s) {
+  const tank = $('.tank', s); tank.textContent = ''; liveEls = []; followEls = []; base = []; netEl = null;
+  const add = (u, v, t, c) => { const e = document.createElement('span'); e.className = 'lbl ' + (c || ''); e.style.left = (u * 100) + '%'; e.style.top = (v * 100) + '%'; e.textContent = t; tank.appendChild(e); return e; };
+  (def.labels || []).forEach(l => add(l[0], l[1], l[2], l[3]));
+  (def.live || []).forEach(l => { const g = def.regs[l.reg], e = add((g[0] + g[2]) / 2, g[3], '', 'ride'); e.innerHTML = l.name + '<b>' + usd(l.amt) + '</b>'; e.style.opacity = 0; liveEls.push({ e, l, y: null }); });
+  (def.follow || []).forEach(t => followEls.push({ e: add(.5, .5, t, 'big'), x: null, y: null }));
+  if (def.net) { netEl = document.createElement('div'); netEl.className = 'netmark'; netEl.innerHTML = '<span></span>'; netEl.style.opacity = 0; tank.appendChild(netEl); }
+  if (def.note) { const e = document.createElement('span'); e.className = 'note'; e.textContent = def.note; tank.appendChild(e); }
+  tank.classList.toggle('grab', !!def.manual);
+}
+function onLive(m) {
+  if (!def || m.sid !== seq) return;
+  if (!base.length && m.r.length) base = m.r.filter((_, k) => k % 2 === 0);
+  liveEls.forEach(o => {
+    const c = m.r[o.l.reg * 2], y = m.r[o.l.reg * 2 + 1]; o.y = o.y === null ? y : o.y + (y - o.y) * .3;
+    o.e.style.top = (o.y * 100 - 1.6) + '%'; o.e.style.opacity = 1; o.e.lastChild.textContent = usd(o.l.amt * c / (base[o.l.reg] || c || 1));
+  });
+  if (netEl && m.r.length >= 4) { const fl = def.regs[0][3], v = fl - (m.r[3] - m.r[1]); netEl.style.top = (v * 100) + '%'; netEl.style.opacity = 1; netEl.firstChild.textContent = 'net worth ' + usd(def.live[0].amt * m.r[0] / (base[0] || 1) - def.live[1].amt * m.r[2] / (base[1] || 1)); }
+  if (m.g) followEls.forEach((o, k) => { const g = m.g[k]; o.x = o.x === null ? g[0] : o.x + (g[0] - o.x) * .25; o.y = o.y === null ? g[1] : o.y + (g[1] - o.y) * .25; o.e.style.left = (o.x * 100) + '%'; o.e.style.top = (o.y * 100) + '%'; });
+  if (hook) hook(m);
+}
+function setAngle() {
+  canvas.style.transformOrigin = (rect.x + rect.w / 2) + 'px ' + (rect.y + rect.h / 2) + 'px';
+  canvas.style.transform = cssA ? 'rotate(' + cssA.toFixed(5) + 'rad)' : 'none';
+  sim && sim.post({ type: 'tilt', a: cssA + sensA });
+}
+function frame(t) {
+  requestAnimationFrame(frame);
+  if (!rot) return;
+  let a = cssA;
+  if (rot.rock && !reduced) a = rot.rock * Math.sin((t - t0) * .00062) + rot.rock * .35 * Math.sin((t - t0) * .0017);
+  else if (rot.spin && !reduced) a = (t - t0) * .001 * rot.spin;
+  else if (rot.manual) { if (!drag) a = cssA + (cssT - cssA) * .1; if (shake > .01) { a += .1 * Math.sin(t * .045) * shake; shake *= .94; } }
+  else a = 0;
+  if (Math.abs(a - cssA) > 1e-5 || rot.fresh) { rot.fresh = 0; cssA = a; setAngle(); }
+}
+function postScene(type, instant) {
+  const s = slides[cur], my = ++seq;
+  rect = rectOf(cur); def = SC[s.dataset.scene](rect.w / rect.h); def.sid = my; buildTank(s); hook = null;
+  const clean = JSON.parse(JSON.stringify(def)), enter = UI[s.dataset.scene];
+  makePlate(def, rect, s.id).then(pl => {
+    if (my !== seq || !sim) return;
+    sim.post(Object.assign({ type, def: clean, rect, plate: pl, instant: !!instant }, dims()), pl && sim.mode !== 'main' ? [pl] : []);
+    const swap = () => { if (my !== seq) return; rot = { rock: def.rock, spin: def.spin, manual: def.manual, fresh: 1 }; t0 = performance.now(); cssA = cssT = 0; sensA = sensor ? sensA : 0; shake = 0; setAngle(); if (enter) enter(s); };
+    if (instant || type === 'resize' || reduced) swap(); else setTimeout(swap, 185);
+  });
+}
+function go(i, instant) {
+  i = Math.max(0, Math.min(slides.length - 1, i));
+  if (i === cur) return;
+  const old = slides[cur];
+  if (old) { old.classList.remove('on', 'enter'); if (!instant) { old.classList.add('leave'); setTimeout(() => old.classList.remove('leave'), 230); } }
+  cur = i; const s = slides[i];
+  s.classList.remove('leave'); s.classList.add('on'); $('.copy', s).scrollTop = 0;
+  if (!instant && !reduced) { void s.offsetWidth; s.classList.add('enter'); }
+  tickBtns.forEach((b, k) => { b.classList.toggle('cur', k === i); b.classList.toggle('past', k < i); b.classList.toggle('near', k !== i && Math.abs(k - i) < 2); if (k === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+  fillEl.style.setProperty('--p', ((i + 1) / slides.length).toFixed(4));
+  count.innerHTML = (i + 1) + '<sub> / ' + slides.length + '</sub>';
+  prevB.disabled = i === 0; nextB.disabled = i === slides.length - 1;
+  fadeCheck($('.copy', s));
+  if (location.hash.slice(1) !== s.id) history.replaceState(null, '', '#' + s.id);
+  if (sim) postScene('scene', instant);
+}
+const next = () => go(cur + 1), prev = () => go(cur - 1);
+prevB.addEventListener('click', e => { e.stopPropagation(); prev(); });
+nextB.addEventListener('click', e => { e.stopPropagation(); next(); });
+addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key, onBtn = e.target && e.target.closest && e.target.closest('button,a');
+  if (k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !e.shiftKey && !onBtn)) { e.preventDefault(); next(); }
+  else if (k === 'ArrowLeft' || k === 'PageUp' || (k === ' ' && e.shiftKey && !onBtn)) { e.preventDefault(); prev(); }
+  else if (k === 'Home') { e.preventDefault(); go(0); }
+  else if (k === 'End') { e.preventDefault(); go(slides.length - 1); }
+});
+addEventListener('hashchange', () => { const j = slides.findIndex(s => s.id === location.hash.slice(1)); if (j >= 0) go(j); });
+
+/* ---------- pointer: stir, probe with the lens, turn the flask, swipe, tap to advance ---------- */
+const centre = () => [rect.x + rect.w / 2, rect.y + rect.h / 2];
+function unrot(x, y, vec) { if (!cssA) return [x, y]; const [cx, cy] = vec ? [0, 0] : centre(), c = Math.cos(-cssA), s = Math.sin(-cssA), dx = x - cx, dy = y - cy; return [cx + dx * c - dy * s, cy + dx * s + dy * c]; }
+let lastX = null, lastY = null;
+deck.addEventListener('pointerdown', e => {
+  const inTank = !!e.target.closest('.tank');
+  down = { x: e.clientX, y: e.clientY, t: performance.now(), inTank };
+  lastX = e.clientX; lastY = e.clientY;
+  if (inTank && rot && rot.manual) { const [cx, cy] = centre(); drag = { a0: Math.atan2(e.clientY - cy, e.clientX - cx), base: cssA, last: 0 }; try { e.target.setPointerCapture(e.pointerId); } catch (_) {} }
+});
+addEventListener('pointermove', e => {
+  if (!sim) return;
+  const dx = lastX === null ? 0 : e.clientX - lastX, dy = lastY === null ? 0 : e.clientY - lastY; lastX = e.clientX; lastY = e.clientY;
+  if (drag) { const [cx, cy] = centre(); let d = Math.atan2(e.clientY - cy, e.clientX - cx) - drag.a0; while (d - drag.last > Math.PI) d -= 2 * Math.PI; while (d - drag.last < -Math.PI) d += 2 * Math.PI; drag.last = d; cssA = cssT = drag.base + d; setAngle(); }
+  const inR = e.clientX > rect.x - 20 && e.clientX < rect.x + rect.w + 20 && e.clientY > rect.y - 20 && e.clientY < rect.y + rect.h + 20;
+  if (inR && (e.pointerType === 'mouse' || (down && down.inTank))) { const p = unrot(e.clientX, e.clientY), v = unrot(dx, dy, 1); sim.post({ type: 'ptr', x: p[0], y: p[1], dx: v[0], dy: v[1], stir: !drag }); }
+}, { passive: true });
+const endDrag = () => { if (drag) { const pi2 = 2 * Math.PI; cssT = cssA; if (flipBtn) setFlip(Math.abs(((cssA % pi2) + pi2) % pi2 - Math.PI) < Math.PI / 2); } drag = null; };
+deck.addEventListener('pointerup', e => {
+  endDrag(); if (!down) return; const d = down; down = null;
+  const dx = e.clientX - d.x, dy = e.clientY - d.y, dt = performance.now() - d.t;
+  if (d.inTank) return;
+  if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) { dx < 0 ? next() : prev(); return; }
+  if (Math.abs(dx) < 8 && Math.abs(dy) < 8 && dt < 500) {
+    if (e.target.closest('a,button,.receipt') || String(getSelection()).length) return;
+    e.clientX < innerWidth * .25 ? prev() : next();
+  }
+});
+deck.addEventListener('pointercancel', () => { down = null; endDrag(); });
+
+/* ---------- hands-on moments ---------- */
+const UI = {}; let sensor = false, flipBtn = null, flipped = false;
+const out = (s, k) => $('[data-out="' + k + '"]', s), btn = (s, k) => $('[data-do="' + k + '"]', s);
+const say = (s, t) => { const m = out(s, 'msg'); m.textContent = t; clearTimeout(m._t); if (t) m._t = setTimeout(() => m.textContent = '', 6500); };
+function setFlip(v) { flipped = v; if (flipBtn) flipBtn.textContent = v ? 'Stand it upright' : 'Tip it upside down'; }
+UI.readonly = s => {
+  flipBtn = btn(s, 'flip'); setFlip(false); say(s, '');
+  hook = m => { out(s, 'n').textContent = m.n.toLocaleString('en-US'); };
+  if (s._wired) return; s._wired = 1;
+  let pulls = 0;
+  flipBtn.addEventListener('click', () => { const pi2 = 2 * Math.PI, k = Math.round(cssA / pi2) * pi2; setFlip(!flipped); cssT = flipped ? k + Math.PI : k; say(s, flipped ? 'Upside down, and every drop is still inside.' : ''); });
+  btn(s, 'shake').addEventListener('click', () => { shake = 1; sim && sim.post({ type: 'kick' }); say(s, 'It sloshes. Nothing leaves.'); });
+  btn(s, 'pull').addEventListener('click', () => { shake = .5; sim && sim.post({ type: 'kick' }); say(s, ['It won’t budge. Read-only access has no transfer, payment or trade to call.', 'Still sealed. There is no way out to open.', 'You can keep pulling. The count stays the same.'][pulls++ % 3]); });
+  const sb = btn(s, 'sensor');
+  if ('DeviceOrientationEvent' in window && matchMedia('(pointer: coarse)').matches) {
+    sb.hidden = false;
+    sb.addEventListener('click', async () => {
+      if (sensor) { sensor = false; sensA = 0; setAngle(); sb.textContent = 'Use phone tilt'; return; }
+      try { if (typeof DeviceOrientationEvent.requestPermission === 'function' && await DeviceOrientationEvent.requestPermission() !== 'granted') throw 0; } catch (_) { say(s, 'The tilt sensor isn’t available here. Drag the flask instead.'); return; }
+      let got = false; sensor = true; sb.textContent = 'Stop phone tilt';
+      if (!window._ori) { window._ori = 1; addEventListener('deviceorientation', ev => {
+        if (!sensor || ev.beta === null || !rot || !rot.manual) return; got = true;
+        const b = ev.beta * Math.PI / 180, g = ev.gamma * Math.PI / 180; let gx = Math.sin(g) * Math.cos(b), gy = Math.sin(b);
+        const o = ((screen.orientation && screen.orientation.angle) || 0) * Math.PI / 180, c = Math.cos(o), sn = Math.sin(o), rx = gx * c - gy * sn, ry = gx * sn + gy * c;
+        if (Math.hypot(rx, ry) > .25) { sensA = Math.atan2(rx, ry); setAngle(); }
+      }); }
+      setTimeout(() => { if (!got && sensor) { sensor = false; sb.textContent = 'Use phone tilt'; say(s, 'No tilt signal arrived. Drag the flask instead.'); } else if (got) say(s, 'Tilt the phone. The water finds level; none of it gets out.'); }, 1400);
+    });
+  }
+};
+UI.more = s => {
+  let n = 3; const b = btn(s, 'add'), x = k => .02 + k * .06;
+  const show = () => { out(s, 'n').textContent = n; b.disabled = n >= 16; say(s, n >= 16 ? 'That’s the limit. Unlink a bank before linking another.' : ''); };
+  show();
+  s._add = () => { if (n >= 16 || !sim) return; sim.post({ type: 'pour', u: x(n) + .03, v: .36, sp: .003, count: 55 + Math.random() * 120, d: [[.3, 0], [1, 0], [0, 0], [.6, 0]][n % 4] }); n++; show(); };
+  s._reset = () => { n = 3; postScene('scene', false); };
+  if (s._wired) return; s._wired = 1;
+  b.addEventListener('click', () => s._add()); btn(s, 'reset').addEventListener('click', () => s._reset());
+};
+UI.unlink = s => {
+  const st = [0, 0, 0], bs = [0, 1, 2].map(k => btn(s, 'u' + k)), names = ['A', 'B', 'C'], wid = $$('.lbl.wid', s), big = $$('.lbl.big', s)[0];
+  const show = () => {
+    const left = st.filter(v => !v).length;
+    bs.forEach((b, k) => { b.setAttribute('aria-pressed', st[k] ? 'true' : 'false'); b.textContent = (st[k] ? 'Relink bank ' : 'Unlink bank ') + names[k]; });
+    wid.forEach(e => e.classList.toggle('gone', left === 0)); if (big) big.classList.toggle('off', left === 0);
+    out(s, 'state').textContent = left === 3 ? '3 banks linked. The dashboard is intact.' : left > 0 ? left + (left === 1 ? ' bank' : ' banks') + ' linked. Claude no longer reads the dark ones; the money in them hasn’t moved.' : 'Last bank unlinked. The dashboard resets: widgets, settings such as budgets, and your setup answers are deleted, and that can’t be undone.';
+    out(s, 'state').style.color = left === 0 ? '#ead9b6' : '';
+  };
+  s._tog = k => { st[k] = st[k] ? 0 : 1; sim && sim.post({ type: 'shade', i: k, v: st[k] }); show(); };
+  show();
+  if (s._wired) return; s._wired = 1;
+  bs.forEach((b, k) => b.addEventListener('click', () => s._tog(k)));
+};
+UI.taps = s => {
+  let auto = setInterval(() => { if (slides[cur] !== s) return clearInterval(auto); pulse(); }, 4200), tm = 0;
+  function pulse() { if (!sim) return; sim.post({ type: 'gate', i: 0, closed: false }); clearTimeout(tm); tm = setTimeout(() => sim.post({ type: 'gate', i: 0, closed: true }), 1100); }
+  s._approve = () => { clearInterval(auto); pulse(); };
+  if (s._wired) return; s._wired = 1;
+  btn(s, 'approve').addEventListener('click', () => s._approve());
+};
+UI.stairs = s => { const lis = $$('ol.sync li', s), nums = $$('.lbl.num', s); hook = m => { for (let k = 0; k < 7; k++) { const on = m.r[k * 2] > 9; lis[k].classList.toggle('hit', on); if (nums[k]) nums[k].classList.toggle('hit', on); } }; };
+
+/* copy buttons */
+$$('.copybtn').forEach(b => b.addEventListener('click', async e => {
+  e.stopPropagation();
+  const el = b.parentElement.nextElementSibling, t = el.textContent.replace(/\s+/g, ' ').trim();
+  try { await navigator.clipboard.writeText(t); b.textContent = 'Copied'; }
+  catch (_) { const r = document.createRange(); r.selectNodeContents(el); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = 'Selected: copy it'; }
+  setTimeout(() => b.textContent = 'Copy', 1800);
+}));
+
+/* ---------- simulation host: Worker + OffscreenCanvas, main-thread fallback ---------- */
+const code = $('#sim-src').textContent, cpu = /[?&]cpu\b/.test(location.search), noWorker = /[?&]main\b/.test(location.search);
+const q0 = Math.min(innerWidth, innerHeight) < 520 ? .74 : 1;
+const onMsg = d => { if (d.type === 'ready') document.documentElement.dataset.sim = d.mode === 'none' ? 'none' : (sim ? sim.mode : '') + ':' + d.mode; else if (d.type === 'stat') window.__simStat = d; else if (d.type === 'live') { if (d.sid === seq && !document.documentElement.dataset.wet) document.documentElement.dataset.wet = '1'; onLive(d); } };
+function startMain(why) {
+  const fresh = canvas.cloneNode(); canvas.replaceWith(fresh); canvas = fresh;
+  const host = { postMessage: onMsg, requestAnimationFrame: f => requestAnimationFrame(f) };
+  sim = { post: m => host.onmessage({ data: m }), mode: 'main' };
+  try { new Function('self', code)(host); sim.post(Object.assign({ type: 'init', canvas, reduced, cpu, q: q0 }, dims())); }
+  catch (err) { console.warn('water simulation unavailable', why, err); sim = null; document.documentElement.dataset.sim = 'none'; }
+}
+function startWorker() {
+  if (noWorker || !('transferControlToOffscreen' in HTMLCanvasElement.prototype) || typeof Worker === 'undefined' || typeof OffscreenCanvas === 'undefined') return startMain('no-offscreen');
+  let w;
+  try { w = new Worker(URL.createObjectURL(new Blob([code], { type: 'text/javascript' }))); } catch (err) { return startMain('worker-blocked'); }
+  let ok = false; const off = canvas.transferControlToOffscreen();
+  const fail = why => { if (ok) return; ok = true; w.terminate(); sim = null; startMain(why); if (cur >= 0 && sim) postScene('scene', true); };
+  w.onmessage = e => { if (e.data.type === 'ready') ok = true; onMsg(e.data); };
+  w.onerror = () => fail('worker-error');
+  sim = { post: (m, tr) => w.postMessage(m, tr || []), mode: 'worker' };
+  w.postMessage(Object.assign({ type: 'init', canvas: off, reduced, cpu, q: q0 }, dims()), [off]);
+  setTimeout(() => fail('worker-timeout'), 2500);
+}
+startWorker();
+
+let rz = 0;
+addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { fitAll(); if (sim && cur >= 0) postScene('resize', true); }, 140); });
+document.addEventListener('visibilitychange', () => sim && sim.post({ type: 'pause', v: document.hidden }));
+
+fitAll();
+const start = slides.findIndex(s => s.id === location.hash.slice(1));
+go(start >= 0 ? start : 0, true);
+requestAnimationFrame(frame);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { const r0 = JSON.stringify(rectOf(cur)); fitAll(); if (!sim) return; if (JSON.stringify(rectOf(cur)) !== r0) postScene('resize', true); else makePlate(def, rect, slides[cur].id).then(pl => sim && sim.post({ type: 'plate', plate: pl }, pl && sim.mode !== 'main' ? [pl] : [])); });
+window.__deck = { go, get cur() { return cur; }, n: slides.length, act: (k, a) => { const s = slides[cur]; return s['_' + k] && s['_' + k](a); }, tilt: a => { cssT = a; } };
+})();
+</script>
+
+</body>
+</html>
